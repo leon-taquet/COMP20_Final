@@ -46,7 +46,7 @@
                           curr.push("GBP");
                         	var t= "";
                         	t = "<select name='" + name + "' size='1'>";
-                        	for (j=minRange; j<=maxRange; j++)
+                        	for (j=0; j<=curr.length; j++)
                         	   t += "<option>" + j + "</option>";
                         	t+= "</select>";
                         	return t;
