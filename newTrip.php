@@ -24,7 +24,8 @@ extract ($_POST);
 // $name = "test";
 // $def_curr = "USD";
 
-$sql = "INSERT INTO trips (tripname, default_currency, userID) VALUES ('$name', '$def_curr', $userID)";
+$sql = "INSERT INTO trips (tripname, default_currency, userID) VALUES ('$tripName', '$defaultCurrency', '$userID')";
+$conn->query($sql);
 
 // if ($conn->query($sql) === TRUE) {
 //   echo "New record created successfully";
