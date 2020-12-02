@@ -1,64 +1,88 @@
-<!-- trip.html 
+<!--trip.html
 Author: HTeamML
 Comp20 Fall 2020-->
 
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="Stylesheet.css">
-    <style>
-        input{
-            font-family: Times New Roman;
-            font-variant: none;
-        }
-        #addExpenseForm {
-            display: none;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+crossorigin="anonymous">
+</script>
+<title>Login</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="Stylesheet.css">
+<style>
+    input{
+        font-family: Times New Roman;
+        font-variant: none;
+    }
+    #addExpenseForm {
+        display: none;
+    }
+</style>
 
-    <script type="text/javascript">
-        function AddExpense() {
-            document.getElementById("addExpenseForm").style.display='block';
-        }
-    </script>
+<script language="javascript">
+function AddExpense() {
+    document.getElementById("addExpenseForm").style.display='block';
+}
+function useAPI() {
+    request = new XMLHttpRequest();
+    request.open("GET", "http://api.currencylayer.com/historical?access_key=782d6f73de40f0bd7651de14e8196b0e&date=latest&USD&1", true)
+    request.onreadystatechange =
+    function() {
+        if (request.readyState == 4 && request.status == 200)
+        {
+            stringified = request.responseText;
+            parsed = JSON.parse(stringified);
+            rate = parsed.quotes.USDAED;
+            document.getElementById("amountHome").innerHTML = rate;
+        } // end of if ready state function
+    } // end of state change function
+    request.send();
+} // end of function function
 
+$(document).ready(
+    function(){
+        $("#amountForeign").change(function()
+        {
+            alert ("Is this getting use?");
+            useAPI();
+        });
+    }
+);
+</script>
 </head>
+
 <body>
-    <header><a class="header" href="login.html">International Travel Expense Tracker</a></header>
-
-    <nav>
-        <ul>
-            <div class="leftnav">
-                <li><a href = "about.html">About</a></li>
-                <li><a href = #>Dashboard</a></li>
-                <div class="rightnav">
-                    <li><a href = #><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>   
-                </div>
+<header><a class="header" href="login.html">International Travel Expense Tracker</a></header>
+<nav>
+    <ul>
+        <div class="leftnav">
+            <li><a href = "about.html">About</a></li>
+            <li><a href = #>Dashboard</a></li>
+            <div class="rightnav">
+                <li><a href = #><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
             </div>
-        </ul>
-    </nav>
+        </div>
+    </ul>
+</nav>
+<h1>My Trip</h1>
+<button type="button" id="addexpense" onclick="AddExpense()">Add Expense</button>
+<div id="addExpenseForm">
+    <form>
+        Expense Name: <input type="text" id="expenseName">
+        &nbsp &nbsp &nbsp
+        Type: <input type="text" id="expenseType">
+        Amount in Foreign Currency: <input type="text" id="amountForeign">
+        Amount in Home Currency: <input type="text" id="amountHome" value="autofill on foreign amount input using API">
 
-    <!-- BODY -->
-
-    <h1>My Trip</h1>
-    <button type="button" id="addexpense" onclick="AddExpense()">Add Expense</button>
-    <div id="addExpenseForm">
-        <form>
-            Expense Name: <input type="text" id="expenseName"> 
-            &nbsp &nbsp &nbsp
-            Type: <input type="text" id="expenseType">
-            Amount in Foreign Currency: <input type="text" id="amountForeign">
-            Amount in Home Currency: <input type="text" id="amountHome" value="autofill on foreign amount input using API">
-
-        </form>
-    </div>
+    </form>
+</div>
 
 
-    <footer>ITET</footer>
-
+<footer>ITET</footer>
 
 </body>
