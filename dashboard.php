@@ -95,7 +95,7 @@
                 <div class="rightnav">
 
                     <!-- END SESSION IF CLICKED --> 
-                    <li><a href = "login.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
+                    <li><a href = "logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
 
                 </div>
             </div>
