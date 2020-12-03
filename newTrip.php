@@ -1,3 +1,7 @@
+<html>
+<head>
+<meta http-equiv="refresh" content="1; URL=https://aboutlct.000webhostapp.com/Final/trip.php" />
+
 <?php
 $servername = "localhost";
 $username = "id14882043_ltaque01";
@@ -13,16 +17,9 @@ if ($conn->connect_error) {
 }
 // echo "Connected successfully";
 
-// Add trip
+
 
 extract ($_POST);
-// $userID;
-// $name;
-// $def_curr;
-
-// $userID = 0;
-// $name = "test";
-// $def_curr = "USD";
 
 $sql = "INSERT INTO trips (tripname, default_currency, userID) VALUES ('$tripName', '$defaultCurrency', '$userID')";
 $conn->query($sql);
@@ -34,3 +31,5 @@ $conn->query($sql);
 // }
 
 ?>
+</head>
+</html>
