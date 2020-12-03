@@ -8,6 +8,7 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="Stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <style>
         h1 {
             text-align: center;
@@ -24,16 +25,37 @@
             width:70%;
             margin: 0 auto;
         }
+
+        tr{
+            padding: 10px 10px;
+        }
         input{
             font-family: Times New Roman;
             font-variant: none;
         }
         button {
-            width: 20%;
+            width: 70%;
+            text-align: center;
             margin: 0 auto;
-
+            font-size: 25px;
+            font-family: Times New Roman;
+            font-variant: small-caps;
+            justify-content: center;
+        }
+        .lbutton {
+            background-color: #E9E9E9;
+            color: #00508F;
+            border: 2px solid black;
+            padding: 20px 20px;
+            border-radius: 10px;
+        }
+        .lbutton:hover{
+            background-color: white;
         }
         #addTripForm {
+            display: none;
+        }
+        #hiddenTripId {
             display: none;
         }
     </style>
@@ -72,9 +94,8 @@
                 <li><a href = "dashboard.php" class="currpage">Dashboard</a></li>
                 <div class="rightnav">
 
-                    <!-- END SESSION IF CLICKED -->
-                    <li><a href = "login.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>   
-                    <li><a href = #><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
+                    <!-- END SESSION IF CLICKED --> 
+                    <li><a href = "login.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
 
                 </div>
             </div>
@@ -87,20 +108,39 @@
 
 
     <?php
-        //extract POST, get username, select where username =userid=userid
+        $count = 0;
         $userID = $_SESSION["userID"];
         $sql = "SELECT * FROM trips WHERE userID = '$userID'";
         $result = $conn->query($sql);
-        //SHOW ALL ROWS
         print "<table>";
         foreach($result as $row){
-            print " <tr>";
-            foreach ($row as $name=>$value){
-                print " <td>$value</td>";
-            } // end field loop
-            print " </tr>";
+            if ($count % 2 == 0) {
+                print "<tr><td>";
+                print "<form action='http://aboutlct.000webhostapp.com/Final/trip.php' method='post'>
+              <input type='submit' class='lbutton' name='tripid' value='" . $row['tripname'];
+                print "'/> </form></td>";
+            }
+            else {
+                print "<td>";
+                print "<form action='http://aboutlct.000webhostapp.com/Final/trip.php' method='post'>
+              <input type='submit' class='lbutton' name='tripid' value='" . $row['tripname'];
+                print "'/> </form></td></tr>";
+            }
+            // print "<td>";
+            // print $row['tripname'];
+            // //SHOW ALL FIELDS 
+            // // for ($row as $name=>$value){
+            // //     print " <td>$value</td>";
+            // // } // end field loop
+            // print " </td></tr>";
+            $count += 1;
         } // end record loop
+        if ($count % 2 ==0) {
+            print "</tr>";
+        }
         print "</table>";
+
+
         //UPDATE PAGE ON ADDITION//
     ?>
 
@@ -109,14 +149,14 @@
         <button type="button" id="addtripbutton" onclick="AddTripShow()">Add Trip</button>
         <div id="addTripForm">
         <form method="post" action="newTrip.php">
-            Trip Name: <input type="text" name="tripName"/>
+            Trip Name: <input type="text" name="tripName" required />
             &nbsp &nbsp &nbsp
-            Default Currency: <input type="text" name="defaultCurrency"/>
-            User ID: <input type="text" name="userID"/>
+            Default Currency: <input type="text" name="defaultCurrency" required/>
             <input type="submit" value="Add"/>
         </form>
     </div>
     </div>
+
 
     <footer>ITET</footer>
 
