@@ -1,3 +1,8 @@
+<?php
+// Start the session
+session_start();
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -10,13 +15,14 @@
 	<h1> Trip Detail </h1>
 	
 	<?php
-	
+		
 		/*
 		This page connects to the MySQL server and display all previous
 		expense entries of a user.
 		
 		William Huang
 		*/
+		
 		
 		
 		//for server page
@@ -26,7 +32,8 @@
 		$dbname = "id14882043_itet";
 
 		//From Dashboard (TO DO)!!!
-		$tripID = "tripID_selected";
+		
+		$tripID = $_SESSION["tripID"];
 		
 		// Create connection
 		$conn = new mysqli($servername, $username, $password, $dbname);
