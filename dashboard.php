@@ -1,4 +1,5 @@
-<!-- trip.html 
+<?php session_start(); ?>
+<!-- trip.html
 Author: HTeamML
 Comp20 Fall 2020-->
 
@@ -64,7 +65,7 @@ Comp20 Fall 2020-->
                 <li><a href = "aboutdash.html">About</a></li>
                 <li><a href = "dashboard.php" class="currpage">Dashboard</a></li>
                 <div class="rightnav">
-                    <li><a href = #><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>   
+                    <li><a href = #><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
                 </div>
             </div>
         </ul>
@@ -76,19 +77,20 @@ Comp20 Fall 2020-->
 
     <?php
         //extract POST, get username, select where username =userid=userid
-        $sql = "SELECT * FROM trips WHERE userid = 1";
+        $userID = $_SESSION["userID"];
+        $sql = "SELECT * FROM trips WHERE userID = '$userID'";
         $result = $conn->query($sql);
         //SHOW ALL ROWS
         echo $result-> fetch_row()[0];
         //UPDATE PAGE ON ADDITION//
-    ?> 
+    ?>
 
     <br><br>
 
         <button type="button" id="addtripbutton" onclick="AddTripShow()">Add Trip</button>
         <div id="addTripForm">
-        <form method="post" action="http://aboutlct.000webhostapp.com/Final/newTrip.php">
-            Trip Name: <input type="text" name="tripName"/> 
+        <form method="post" action="newTrip.php">
+            Trip Name: <input type="text" name="tripName"/>
             &nbsp &nbsp &nbsp
             Default Currency: <input type="text" name="defaultCurrency"/>
             User ID: <input type="text" name="userID"/>
