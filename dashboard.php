@@ -1,11 +1,5 @@
 <?php session_start(); ?>
-<<<<<<< HEAD
-<!-- trip.html 
-=======
-<!-- trip.html
->>>>>>> b4f8ebf024bf2c4ea4c552cb38122de16b565da7
-Author: HTeamML
-Comp20 Fall 2020-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,12 +71,11 @@ Comp20 Fall 2020-->
                 <li><a href = "aboutdash.html">About</a></li>
                 <li><a href = "dashboard.php" class="currpage">Dashboard</a></li>
                 <div class="rightnav">
-<<<<<<< HEAD
+
                     <!-- END SESSION IF CLICKED -->
                     <li><a href = "login.html"><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>   
-=======
                     <li><a href = #><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
->>>>>>> b4f8ebf024bf2c4ea4c552cb38122de16b565da7
+
                 </div>
             </div>
         </ul>
