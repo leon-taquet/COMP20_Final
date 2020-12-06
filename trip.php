@@ -33,7 +33,11 @@ session_start();
 
 		//From Dashboard (TO DO)!!!
 		
-		$tripID = $_SESSION["tripID"];
+		$tripName = $_POST["tripid"];
+		$loginID = $_SESSION["userID"];
+		echo ".$tripName. <br> . $loginID. <br>";
+		
+		//$_SESSION["tripID"] = $tripID;
 		
 		// Create connection
 		$conn = new mysqli($servername, $username, $password, $dbname);
@@ -49,7 +53,7 @@ session_start();
 											 INNER JOIN users
 						ON tripID = trips.ID AND CategoryID = categories.ID
 						AND userID = users.ID
-						WHERE username = " .$user " AND tripname = " .$trip;
+						WHERE tripID = " .$tripID; //???
 		$result = $conn->query($sql);
 
 
@@ -69,9 +73,7 @@ session_start();
 								<th> Home Cost </th>
 						 </tr>
 		";
-		tripname, categories.name, expense_date, expense_name,
-						cost_local, local_currency,
-						default_currency,	cost_home 	
+
 		if ($result->num_rows > 0) {
 			
 		  while($row = $result->fetch_assoc()) {
