@@ -12,7 +12,22 @@
             font-variant: none;
         }
     </style>
+    <?php
+        $servername = "localhost";
+        $usernameData = "id14882043_ltaque01";
+        $passwordData = "WilliamLeonKateriJulia4!";
+        $database = "id14882043_itet";
 
+        // Create connection
+        $conn = new mysqli($servername, $usernameData, $passwordData, $database);
+
+        // Check connection
+        if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+        }
+        $sql = "SELECT DISTINCT codes FROM codes ORDER BY codes";
+        $result = $conn->query($sql);
+        ?>
 </head>
 <body>
     <header><a class="header" href="login.html">International Travel Expense Tracker</a></header>
@@ -37,7 +52,16 @@
                 Username*: <input type="text" name="username" value=""/><br><br>
                 Password*: <input type="Password" name="password" value=""/><br><br>
                 Name*: <input type="text" name="name" value=""/><br><br>
-                Home Currency*: <input type="text" name="hcurrency" value=""/><br><br>
+                Home Currency: <select name = "hcurrency" size = '1'>
+                                <?php
+                                foreach($result as $row){
+                                    if ($row['codes'] == 'USD')
+                                      echo "<option value = ''".$row['codes']."' selected>". $row['codes'] ." </option>";
+                                    else
+                                      echo "<option>". $row['codes'] ."</option>";
+                                }
+                                ?>
+                                </select><br><br>
                 <input type="submit" value="Sign Up"/>
             </form>
 

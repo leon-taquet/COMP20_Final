@@ -20,7 +20,7 @@
     // Add trip
 
     extract ($_POST);
-    // Have username and password
+    // Have username password
 
     $sql = "SELECT ID FROM users WHERE username = '$username'";
     $result = $conn->query($sql);
@@ -28,7 +28,7 @@
     if ($result->num_rows > 0) {
       // output data of each row
       $msg = "<h1> Username is taken... Sending back to Sign Up Page </h1>";
-      echo "<meta http-equiv='refresh' content='2;URL=http://aboutlct.000webhostapp.com/Final/signup.html' />";
+      echo "<meta http-equiv='refresh' content='2;URL=http://aboutlct.000webhostapp.com/Final/signup.php' />";
 
     } else {
       $sql = "INSERT INTO users (username, HomeCurrency, password, name) VALUES ('$username', '$hcurrency', '$password' ,'$name')";
@@ -39,7 +39,7 @@
       $msg = "<h1> Successful Created Account... Forwarding to Trip Page </h1>";
       echo "<meta http-equiv='refresh' content='2;URL=http://aboutlct.000webhostapp.com/Final/dashboard.php' />";
       $userID = $result->fetch_row()[0];
-
+      $_SESSION["HomeCurrency"] = $hcurrency;
       $_SESSION["userID"] = $userID;
     }
     $conn->close();

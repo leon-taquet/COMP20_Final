@@ -22,16 +22,16 @@
     extract ($_POST);
     // Have username and password
 
-    $sql = "SELECT ID FROM users WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT ID, HomeCurrency FROM users WHERE username = '$username' AND password = '$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
       // output data of each row
       $msg = "<h1> Successful Log In... Forwarding to Trip Page </h1>";
       echo "<meta http-equiv='refresh' content='2;URL=http://aboutlct.000webhostapp.com/Final/dashboard.php' />";
-      $userID = $result->fetch_row()[0];
-
-      $_SESSION["userID"] = $userID;
+      $user = $result->fetch_assoc();
+      $_SESSION["HomeCurrency"] = $user['HomeCurrency'];
+      $_SESSION["userID"] = $user['ID'];
 
     } else {
       $msg = "<h1> Invalid Log In... Sending back to Login Page </h1>";
