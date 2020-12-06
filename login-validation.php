@@ -19,12 +19,19 @@
 
     // Add trip
 
-    extract ($_POST);
+
     // Have username and password
 
-    $sql = "SELECT ID, HomeCurrency FROM users WHERE username = '$username' AND password = '$password'";
-    $result = $conn->query($sql);
+    // prepare and bind
+    extract($_POST);
 
+    $stmt = $conn->prepare("SELECT ID, HomeCurrency FROM users WHERE username = ? AND password = ?");
+    $stmt->bind_param("ss", $username, $password);
+
+    //$sql = "SELECT ID, HomeCurrency FROM users WHERE username = '$username' AND password = '$password'";
+    //$result = $conn->query($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result->num_rows > 0) {
       // output data of each row
       $msg = "<h1> Successful Log In... Forwarding to Trip Page </h1>";
