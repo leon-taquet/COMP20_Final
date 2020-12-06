@@ -1,3 +1,8 @@
+<?php session_start(); ?>
+<html>
+<head>
+<meta http-equiv="refresh" content="1; URL=https://aboutlct.000webhostapp.com/Final/trip.php" />
+
 <?php
 $servername = "localhost";
 $username = "id14882043_ltaque01";
@@ -13,19 +18,22 @@ if ($conn->connect_error) {
 }
 // echo "Connected successfully";
 
-// Add trip
-
 extract ($_POST);
-// $userID;
-// $name;
-// $def_curr;
+$userID = $_SESSION["userID"];
 
-// $userID = 0;
-// $name = "test";
-// $def_curr = "USD";
+$sql1 = "SELECT * FROM trips WHERE userID = '$userID' AND tripname = '$tripName'";
+$result = $conn->query($sql1);
+if ($result->num_rows == 0) {
+        $sql = "INSERT INTO trips (tripname, default_currency, userID) VALUES ('$tripName', '$defaultCurrency', '$userID')";
+        $conn->query($sql);
+        echo "<meta http-equiv='refresh' content='1; URL=https://aboutlct.000webhostapp.com/Final/trip.php' />";
+}
+else {
+        echo "<h3> Trip name taken. Please enter a different name. </h3>";
+        echo "<meta http-equiv='refresh' content='1; URL=https://aboutlct.000webhostapp.com/Final/dashboard.php' />";
 
-$sql = "INSERT INTO trips (tripname, default_currency, userID) VALUES ('$tripName', '$defaultCurrency', '$userID')";
-$conn->query($sql);
+}
+
 
 // if ($conn->query($sql) === TRUE) {
 //   echo "New record created successfully";
@@ -34,3 +42,5 @@ $conn->query($sql);
 // }
 
 ?>
+</head>
+</html>

@@ -1,3 +1,8 @@
+<?php
+// Start the session
+session_start();
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -10,13 +15,14 @@
 	<h1> Trip Detail </h1>
 	
 	<?php
-	
+		
 		/*
 		This page connects to the MySQL server and display all previous
 		expense entries of a user.
 		
 		William Huang
 		*/
+		
 		
 		
 		//for server page
@@ -26,7 +32,12 @@
 		$dbname = "id14882043_itet";
 
 		//From Dashboard (TO DO)!!!
-		$tripID = "tripID_selected";
+		
+		$tripName = $_POST["tripid"];
+		$loginID = $_SESSION["userID"];
+		echo ".$tripName. <br> . $loginID. <br>";
+		
+		//$_SESSION["tripID"] = $tripID;
 		
 		// Create connection
 		$conn = new mysqli($servername, $username, $password, $dbname);
@@ -42,7 +53,7 @@
 											 INNER JOIN users
 						ON tripID = trips.ID AND CategoryID = categories.ID
 						AND userID = users.ID
-						WHERE username = " .$user " AND tripname = " .$trip;
+						WHERE tripID = " .$tripID; //???
 		$result = $conn->query($sql);
 
 
@@ -62,9 +73,7 @@
 								<th> Home Cost </th>
 						 </tr>
 		";
-		tripname, categories.name, expense_date, expense_name,
-						cost_local, local_currency,
-						default_currency,	cost_home 	
+
 		if ($result->num_rows > 0) {
 			
 		  while($row = $result->fetch_assoc()) {
