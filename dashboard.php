@@ -17,12 +17,12 @@
             font-size: 50px;
             padding-bottom: 10px;
             color: black;
-        }  
+        }
         .bod{
             width: 70%;
             margin: 0 auto;
             background-color: #EAEFFA;
-       
+
         }
         table{
             width:70%;
@@ -37,7 +37,7 @@
                 padding-right: 10px;
                 padding-left: 10px;
         }
-      
+
         input{
             font-family: Times New Roman;
             font-variant: none;
@@ -73,7 +73,7 @@
             font-family: Times New Roman;
             font-variant: small-caps;
             font-size: 18px;
-        
+
             color: white;
         }
         .lbutton:hover{
@@ -117,6 +117,7 @@
         if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
         }
+
     ?>
 
     <script type="text/javascript">
@@ -138,7 +139,7 @@
                 <li><a href = "dashboard.php" class="currpage">Dashboard</a></li>
                 <div class="rightnav">
 
-                    <!-- END SESSION IF CLICKED --> 
+                    <!-- END SESSION IF CLICKED -->
                     <li><a href = "logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a> </li>
 
                 </div>
@@ -172,7 +173,7 @@
             }
             // print "<td>";
             // print $row['tripname'];
-            // //SHOW ALL FIELDS 
+            // //SHOW ALL FIELDS
             // // for ($row as $name=>$value){
             // //     print " <td>$value</td>";
             // // } // end field loop
@@ -188,6 +189,11 @@
         //UPDATE PAGE ON ADDITION//
     ?>
 
+    <?php
+      $sql = "SELECT DISTINCT codes FROM codes ORDER BY codes";
+      $result = $conn->query($sql);
+     ?>
+
     <br><br>
 
         <button type="button" id="addtripbutton" onclick="AddTripShow()">Add Trip</button>
@@ -195,7 +201,18 @@
         <form method="post" action="newTrip.php">
             <label>Trip Name:&nbsp</label><input type="text" name="tripName" required />
             &nbsp &nbsp &nbsp
-            <label>Default Currency:&nbsp</label><input type="text" name="defaultCurrency" required/>
+            <label>Default Currency:&nbsp</label>
+            <select name = "defaultCurrency" size = '1'>
+                            <?php
+                            foreach($result as $row){
+                                if ($row['codes'] == 'USD')
+                                  echo "<option value = ''".$row['codes']."' selected>". $row['codes'] ." </option>";
+                                else
+                                  echo "<option>". $row['codes'] ."</option>";
+                            }
+                            ?>
+                            </select><br><br>
+
             &nbsp &nbsp &nbsp
             <input type="submit" value="Add" id="addtripbuttonsubmit" />
         </form>
