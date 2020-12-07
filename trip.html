@@ -18,15 +18,68 @@ Comp20 Fall 2020-->
     #addExpenseForm {
         display: none;
     }
+    .errMsg {color: #FF0000;
+        border: solid 1px #d20e11;
+        display: none;
+        padding: 1px 15px;
+    }
 </style>
 <script language="javascript">
-function AddExpense()
+function showForm()
 {
     document.getElementById("addExpenseForm").style.display='block';
 }
 
-function useAPI()
+function getDate()
 {
+    today = new Date();
+    day = today.getDate();
+    if (day < 10)
+    {
+        day = "0" + day;
+    }
+    month = today.getMonth() + 1;
+    if (month < 10)
+    {
+        month = "0" + month;
+    }
+    fullDate = today.getFullYear() + "-" + month + "-" + day;
+    return fullDate;
+}
+
+function checkDate(dateS)
+{
+    inputY = dateS.substring(0,4);
+    inputM = dateS.substring(5,7);
+    inputD = dateS.substring(8);
+    alert ("Year: " + inputY + " Month: " + inputM + " Day: " + inputD)
+    if (dateS.length != 10 || isNaN(parseInt(inputY)))
+    {
+        alert("Check 1");
+        return false;
+    }
+    if (isNaN(parseInt(inputM)) || inputM < 1 || inputM > 12)
+    {
+        alert("Check 2");
+        return false;
+    }
+    if (isNaN(parseInt(inputD)) || inputD < 1 || inputD > 31)
+    {
+        alert("Check 3");
+        return false;
+    }
+    if (dateS[4] != "-" || dateS[7] != "-")
+    {
+        alert("Check 4");
+        return false;
+    }
+    else
+        return true;
+}
+
+function useAPI(foreign, home, date, amount)
+{
+    alert("You want to convert " + amount + " from " + foreign + " to " + home + " on " + date);
     request = new XMLHttpRequest();
     request.open("GET", "http://api.currencylayer.com/historical?access_key=782d6f73de40f0bd7651de14e8196b0e&date=latest&USD&1", true)
     request.onreadystatechange =
@@ -47,8 +100,26 @@ window.onload = function()
 {
     document.getElementById("amountForeign").onchange = function()
     {
-        val = document.getElementById("amountForeign").value;
-        alert ("The value in your home currency is " + val);
+        input = document.getElementById("amountForeign").value;
+        inputF = parseFloat(input);
+        if (isNaN(inputF))
+        {
+            document.getElementById("errAmount").style.display = "inline-block";
+        }
+        else {
+            inputF = inputF.toFixed(2);
+            document.getElementById("amountForeign").value = inputF;
+            // useAPI(inputF);
+            document.getElementById("amountHome").value = inputF;
+        }
+    }
+
+    document.getElementById("expenseDate").onchange = function()
+    {
+        if (!checkDate(document.getElementById("expenseDate").value))
+            document.getElementById("errDate").style.display = "inline-block";
+        else
+            document.getElementById("errDate").style.display = "none";
     }
 }
 </script>
@@ -68,16 +139,24 @@ window.onload = function()
     </ul>
 </nav>
 <h1>My Trip</h1>
-<button type="button" id="addexpense" onclick="AddExpense()">Add Expense</button>
+<button type="button" id="addexpense" onclick="showForm()">Add Expense</button>
 <div id="addExpenseForm">
     <form method="post" action="newExpense.php">
         Expense Name: <input type="text" id="expenseName" name="expenseN">
-        &nbsp &nbsp &nbsp
+        <br>
         Type: <input type="text" id="expenseType" name="expenseT">
+        <br>
         Amount in Foreign Currency: <input type="text" id="amountForeign" name="expenseForeign" value="">
-        Date: <input type="text" id="transactionDate" name="date" value="12-06-2020">
-        <!-- Add date form so that API can track rates for the specific day -->
-        Amount in Home Currency: <input type="text" id="amountHome" name="expenseHome" value="autofill on foreign amount input using API">
+        <div id="errAmount" class="errMsg">Please input a numerical expense amount.</div>
+        <br>
+        <script type="text/javascript">
+            code = "Date: <input type='text'id='expenseDate'name='date'value='" + getDate() + "'>"
+            document.writeln(code);
+        </script>
+        <div id="errDate" class="errMsg">Please input a valid date in the form YYYY-MM-DD.</div>
+        <br>
+        Amount in Home Currency: <input type="text" id="amountHome" name="expenseHome">
+        <br>
         <input type="submit" value="Submit Expense">
     </form>
 </div>
