@@ -35,46 +35,52 @@ function getDate()
     today = new Date();
     day = today.getDate();
     if (day < 10)
-    {
         day = "0" + day;
-    }
     month = today.getMonth() + 1;
     if (month < 10)
-    {
         month = "0" + month;
-    }
     fullDate = today.getFullYear() + "-" + month + "-" + day;
     return fullDate;
 }
 
 function checkDate(dateS)
 {
-    inputY = dateS.substring(0,4);
-    inputM = dateS.substring(5,7);
-    inputD = dateS.substring(8);
-    alert ("Year: " + inputY + " Month: " + inputM + " Day: " + inputD)
-    if (dateS.length != 10 || isNaN(parseInt(inputY)))
-    {
-        alert("Check 1");
+    if (dateS.length != 10)
         return false;
-    }
-    if (isNaN(parseInt(inputM)) || inputM < 1 || inputM > 12)
+    for (i = 0; i < 10; i++)
     {
-        alert("Check 2");
-        return false;
+        if (i == 4 || i == 7)
+        {
+            if (dateS[i] != "-")
+                return false;
+        }
+        else if (isNaN(parseInt(dateS[i])))
+            return false;
     }
-    if (isNaN(parseInt(inputD)) || inputD < 1 || inputD > 31)
+    return true;
+}
+
+function validate()
+{
+    err = false;
+    document.getElementById("errAmount").style.display = "none";
+    document.getElementById("errDate").style.display = "none";
+    with (document.forms[0])
     {
-        alert("Check 3");
-        return false;
+        if (isNaN(parseInt(expenseForeign.value)))
+        {
+            document.getElementById("errAmount").style.display = "inline-block";
+            expenseForeign.focus();
+            err = true;
+        }
+        if (!checkDate(date.value))
+        {
+            document.getElementById("errDate").style.display = "inline-block";
+            date.focus();
+            err = true;
+        }
     }
-    if (dateS[4] != "-" || dateS[7] != "-")
-    {
-        alert("Check 4");
-        return false;
-    }
-    else
-        return true;
+    return !err;
 }
 
 function useAPI(foreign, home, date, amount)
@@ -100,27 +106,22 @@ window.onload = function()
 {
     document.getElementById("amountForeign").onchange = function()
     {
-        input = document.getElementById("amountForeign").value;
-        inputF = parseFloat(input);
-        if (isNaN(inputF))
+        inputF = parseFloat(document.getElementById("amountForeign").value);
+        if (!isNaN(inputF))
         {
-            document.getElementById("errAmount").style.display = "inline-block";
-        }
-        else {
-            inputF = inputF.toFixed(2);
-            document.getElementById("amountForeign").value = inputF;
+            document.getElementById("amountForeign").value = inputF.toFixed(2);
             // useAPI(inputF);
-            document.getElementById("amountHome").value = inputF;
+            document.getElementById("amountHome").value = inputF.toFixed(2);
         }
     }
 
-    document.getElementById("expenseDate").onchange = function()
-    {
-        if (!checkDate(document.getElementById("expenseDate").value))
-            document.getElementById("errDate").style.display = "inline-block";
-        else
-            document.getElementById("errDate").style.display = "none";
-    }
+    // document.getElementById("expenseDate").onchange = function()
+    // {
+    //     if (!checkDate(document.getElementById("expenseDate").value))
+    //         document.getElementById("errDate").style.display = "inline-block";
+    //     else
+    //         document.getElementById("errDate").style.display = "none";
+    // }
 }
 </script>
 </head>
@@ -141,7 +142,7 @@ window.onload = function()
 <h1>My Trip</h1>
 <button type="button" id="addexpense" onclick="showForm()">Add Expense</button>
 <div id="addExpenseForm">
-    <form method="post" action="newExpense.php">
+    <form method="post" onsubmit="return validate()" action="newExpense.php">
         Expense Name: <input type="text" id="expenseName" name="expenseN">
         <br>
         Type: <input type="text" id="expenseType" name="expenseT">
