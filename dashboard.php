@@ -16,10 +16,13 @@
             font-variant: small-caps;
             font-size: 50px;
             padding-bottom: 10px;
-        }   
+            color: black;
+        }  
         .bod{
             width: 70%;
             margin: 0 auto;
+            background-color: #EAEFFA;
+       
         }
         table{
             width:70%;
@@ -29,34 +32,75 @@
         tr{
             padding: 10px 10px;
         }
+        td {
+                padding-bottom: 20px;
+                padding-right: 10px;
+                padding-left: 10px;
+        }
+      
         input{
             font-family: Times New Roman;
             font-variant: none;
         }
         button {
-            width: 70%;
+            width: 100%;
             text-align: center;
             margin: 0 auto;
-            font-size: 25px;
+            padding: 5px 5px;
+            font-size: 18px;
             font-family: Times New Roman;
             font-variant: small-caps;
-            justify-content: center;
+            border-radius: 15px;
+            border-width: 5px;
+            border-color: #4380FE;
+
+
+        }
+        button:hover {
+                background-color: #4380FE;
+                color: white;
         }
         .lbutton {
-            background-color: #E9E9E9;
+            margin: 0 auto;
+            width: 100%;
+            background-color: black;
             color: #00508F;
             border: 2px solid black;
             padding: 20px 20px;
-            border-radius: 10px;
+            border-radius: 15px;
+            border-width: 5px;
+            border-color: #4380FE;
+            font-family: Times New Roman;
+            font-variant: small-caps;
+            font-size: 18px;
+        
+            color: white;
         }
         .lbutton:hover{
-            background-color: white;
+            background-color: #4380FE;
         }
+
         #addTripForm {
             display: none;
+            margin: 0 auto;
+            padding-left: 40px;
+
         }
-        #hiddenTripId {
-            display: none;
+        #addtripbuttonsubmit {
+                margin: 0 auto;
+            padding: 5px 5px;
+            font-size: 18px;
+            font-family: Times New Roman;
+            font-variant: small-caps;
+            border-radius: 15px;
+            border-width: 5px;
+            border-color: #4380FE;
+        }
+
+        label{
+                font-family: Times New Roman;
+                font-variant: small-caps;
+                font-size: 15px;
         }
     </style>
 
@@ -115,13 +159,13 @@
         print "<table>";
         foreach($result as $row){
             if ($count % 2 == 0) {
-                print "<tr><td>";
+                print "<tr><td align='center'>";
                 print "<form action='http://aboutlct.000webhostapp.com/Final/trip.php' method='post'>
               <input type='submit' class='lbutton' name='tripid' value='" . $row['tripname'];
                 print "'/> </form></td>";
             }
             else {
-                print "<td>";
+                print "<td align='center'>";
                 print "<form action='http://aboutlct.000webhostapp.com/Final/trip.php' method='post'>
               <input type='submit' class='lbutton' name='tripid' value='" . $row['tripname'];
                 print "'/> </form></td></tr>";
@@ -149,13 +193,17 @@
         <button type="button" id="addtripbutton" onclick="AddTripShow()">Add Trip</button>
         <div id="addTripForm">
         <form method="post" action="newTrip.php">
-            Trip Name: <input type="text" name="tripName" required />
+            <label>Trip Name:&nbsp</label><input type="text" name="tripName" required />
             &nbsp &nbsp &nbsp
-            Default Currency: <input type="text" name="defaultCurrency" required/>
-            <input type="submit" value="Add"/>
+            <label>Default Currency:&nbsp</label><input type="text" name="defaultCurrency" required/>
+            &nbsp &nbsp &nbsp
+            <input type="submit" value="Add" id="addtripbuttonsubmit" />
         </form>
     </div>
+    <br><br>
     </div>
+    <br><br>
+    <br><br>
 
 
     <footer>ITET</footer>
