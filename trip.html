@@ -11,7 +11,7 @@ Comp20 Fall 2020-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="Stylesheet.css">
 <style>
-    input{
+    input {
         font-family: Times New Roman;
         font-variant: none;
     }
@@ -45,6 +45,7 @@ function getDate()
 
 function checkDate(dateS)
 {
+    // Check that date entered is in valid format
     if (dateS.length != 10)
         return false;
     for (i = 0; i < 10; i++)
@@ -57,7 +58,23 @@ function checkDate(dateS)
         else if (isNaN(parseInt(dateS[i])))
             return false;
     }
+    // Check that date is not in the future
+    today = new Date();
+    if (parseInt(dateS.substring(0,4)) > today.getFullYear())
+        return false;
+    else if (parseInt(dateS.substring(5,7)) > (today.getMonth()+1))
+        return false;
+    else if (parseInt(dateS.substring(8)) > today.getDate())
+        return false;
     return true;
+}
+
+function checkAmount(amount)
+{
+    if (amount == "" || isNaN(parseInt(amount)))
+        return false;
+    else
+        return true;
 }
 
 function validate()
@@ -67,7 +84,7 @@ function validate()
     document.getElementById("errDate").style.display = "none";
     with (document.forms[0])
     {
-        if (isNaN(parseInt(expenseForeign.value)))
+        if (!checkAmount(expenseForeign.value))
         {
             document.getElementById("errAmount").style.display = "inline-block";
             expenseForeign.focus();
@@ -85,43 +102,44 @@ function validate()
 
 function useAPI(foreign, home, date, amount)
 {
-    alert("You want to convert " + amount + " from " + foreign + " to " + home + " on " + date);
+    document.getElementById("amountForeign").value = parseFloat(amount).toFixed(2);
     request = new XMLHttpRequest();
-    request.open("GET", "http://api.currencylayer.com/historical?access_key=782d6f73de40f0bd7651de14e8196b0e&date=latest&USD&1", true)
-    request.onreadystatechange =
-    function()
+    request.open("GET", "http://api.currencylayer.com/"
+        + "historical?access_key=782d6f73de40f0bd7651de14e8196b0e&date=" + date
+        + "&currencies=" + foreign + "," + home, true);
+    request.onreadystatechange = function()
     {
         if (request.readyState == 4 && request.status == 200)
         {
-            stringified = request.responseText;
-            parsed = JSON.parse(stringified);
-            rate = parsed.quotes.USDAED;
-            document.getElementById("amountHome").innerHTML = rate;
-        } // end of if ready state function
+            parsed = JSON.parse(request.responseText);
+            conversion = (amount / parsed.quotes["USD" +
+                foreign]) / parsed.quotes["USD" + home];
+            document.getElementById("amountHome").value = conversion.toFixed(2);
+        }
     } // end of state change function
     request.send();
-} // end of function function
+}
 
 window.onload = function()
 {
-    document.getElementById("amountForeign").onchange = function()
+    with(document.forms[0])
     {
-        inputF = parseFloat(document.getElementById("amountForeign").value);
-        if (!isNaN(inputF))
+        expenseForeign.onchange = function()
         {
-            document.getElementById("amountForeign").value = inputF.toFixed(2);
-            // useAPI(inputF);
-            document.getElementById("amountHome").value = inputF.toFixed(2);
+            if (checkDate(date.value) && checkAmount(expenseForeign.value))
+            {
+                //INR is "foreign", GBP is "home"
+                useAPI("INR", "GBP", date.value, expenseForeign.value);
+            }
+        }
+        date.onchange = function()
+        {
+            if (checkDate(date.value) && checkAmount(expenseForeign.value))
+            {
+                useAPI("INR", "GBP", date.value, expenseForeign.value);
+            }
         }
     }
-
-    // document.getElementById("expenseDate").onchange = function()
-    // {
-    //     if (!checkDate(document.getElementById("expenseDate").value))
-    //         document.getElementById("errDate").style.display = "inline-block";
-    //     else
-    //         document.getElementById("errDate").style.display = "none";
-    // }
 }
 </script>
 </head>
@@ -143,9 +161,9 @@ window.onload = function()
 <button type="button" id="addexpense" onclick="showForm()">Add Expense</button>
 <div id="addExpenseForm">
     <form method="post" onsubmit="return validate()" action="newExpense.php">
-        Expense Name: <input type="text" id="expenseName" name="expenseN">
+        Expense Name: <input type="text" id="expenseName" name="expenseN" value="">
         <br>
-        Type: <input type="text" id="expenseType" name="expenseT">
+        Type: <input type="text" id="expenseType" name="expenseT" value="">
         <br>
         Amount in Foreign Currency: <input type="text" id="amountForeign" name="expenseForeign" value="">
         <div id="errAmount" class="errMsg">Please input a numerical expense amount.</div>
