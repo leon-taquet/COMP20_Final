@@ -80,10 +80,24 @@ function checkAmount(amount)
 function validate()
 {
     err = false;
+    document.getElementById("errName").style.display = "none";
+    document.getElementById("errType").style.display = "none";
     document.getElementById("errAmount").style.display = "none";
     document.getElementById("errDate").style.display = "none";
     with (document.forms[0])
     {
+        if (expenseN.value == "")
+        {
+            document.getElementById("errName").style.display = "inline-block";
+            expenseN.focus();
+            err = true;
+        }
+        if (expenseT.value == "")
+        {
+            document.getElementById("errType").style.display = "inline-block";
+            expenseT.focus();
+            err = true;
+        }
         if (!checkAmount(expenseForeign.value))
         {
             document.getElementById("errAmount").style.display = "inline-block";
@@ -162,17 +176,19 @@ window.onload = function()
 <div id="addExpenseForm">
     <form method="post" onsubmit="return validate()" action="newExpense.php">
         Expense Name: <input type="text" id="expenseName" name="expenseN" value="">
+        <div id="errName" class="errMsg">Please enter an expense name.</div>
         <br>
         Type: <input type="text" id="expenseType" name="expenseT" value="">
+        <div id="errType" class="errMsg">Please enter an expense type.</div>
         <br>
         Amount in Foreign Currency: <input type="text" id="amountForeign" name="expenseForeign" value="">
-        <div id="errAmount" class="errMsg">Please input a numerical expense amount.</div>
+        <div id="errAmount" class="errMsg">Please enter a numerical expense amount.</div>
         <br>
         <script type="text/javascript">
             code = "Date: <input type='text'id='expenseDate'name='date'value='" + getDate() + "'>"
             document.writeln(code);
         </script>
-        <div id="errDate" class="errMsg">Please input a valid date in the form YYYY-MM-DD.</div>
+        <div id="errDate" class="errMsg">Please enter a valid date in the form "YYYY-MM-DD".</div>
         <br>
         Amount in Home Currency: <input type="text" id="amountHome" name="expenseHome">
         <br>

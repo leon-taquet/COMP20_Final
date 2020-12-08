@@ -23,25 +23,23 @@
 
         extract ($_POST);
         // $expenseN;
-        // $expenseT;
+        // $expenseT; (NOT USED currently)
         // $expenseForeign; (Stored as a float)
         // $expenseHome; (Stored as a float)
         // $date;
-        $expenseF = 40.00;
-        $expenseH = 10.00;
         $trip = 1;
-        $local_currency = "USD";
+        $local_currency = "GBP";
         $category = 1;
 
         $sql = "INSERT INTO expenses (expense_name, cost_home, cost_local,
             local_currency, CategoryID, tripID) VALUES ('$expenseN',
-                '$expenseH', '$expenseF', '$local_currency',
+                '$expenseHome', '$expenseForeign', '$local_currency',
                 '$category', '$trip')";
         $conn->query($sql);
 
-        $sql = "SELECT expense_date FROM expenses WHERE tripID=1";
-        $result = $conn->query($sql);
-        $date = $result->fetch_row()[0];
+        // $sql = "SELECT expense_date FROM expenses WHERE tripID=1";
+        // $result = $conn->query($sql);
+        // $date = $result->fetch_row()[0];
         echo $date . " This is the date.";
         // if ($conn->query($sql) === TRUE) {
         //   echo "New record created successfully";
