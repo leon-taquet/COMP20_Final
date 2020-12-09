@@ -102,7 +102,8 @@ session_start();
 		//From Dashboard
 		$tripName = $_POST["tripid"];
 		$loginID = $_SESSION["userID"];
-		echo "$tripName <br>  $loginID <br>";
+		$homeCurrency = $_SESSION["HomeCurrency"];
+		echo "$tripName <br>  $loginID <br> $currency <br>";
 		
 		
 		// Create connection
@@ -118,7 +119,7 @@ session_start();
 		$sql = "SELECT tripname, categories.name, expense_date, expense_name,
 						cost_local, local_currency,
 						default_currency,	cost_home, 
-						tripID, default_currency, local_currency 
+						tripID, local_currency, CategoryID
 						FROM trips INNER JOIN expenses INNER JOIN categories 
 											 INNER JOIN users
 						ON tripID = trips.ID AND CategoryID = categories.ID
@@ -170,7 +171,6 @@ session_start();
 					 . "</td><td>" . $row["cost_home"] . "</td></tr>";
 					 
 				$tripID = $row["tripID"];
-				$homeCurrency = $row["default_currency"];
 				$localCurrency = $row["local_currency"];
 		  }
 			
