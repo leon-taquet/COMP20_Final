@@ -27,8 +27,8 @@
     // $expenseForeign; (Stored as a float)
     // $expenseHome; (Stored as a float)
     // $date;
-    $trip = 1;
-    $local_currency = "GBP";
+    $trip = $_SESSION["$tripID"];
+    $local_currency = $_SESSION["default_currency"];
     $category = 1;
 
     $sql = "INSERT INTO expenses (expense_name, cost_home, cost_local,

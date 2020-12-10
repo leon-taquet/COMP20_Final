@@ -58,7 +58,7 @@
                                     if ($row['codes'] == 'USD')
                                       echo "<option value = ''".$row['codes']."' selected>". $row['codes'] ." </option>";
                                     else
-                                      echo "<option>". $row['codes'] ."</option>";
+                                      echo "<option value = ''".$row['codes']."'>". $row['codes'] ." </option>";
                                 }
                                 ?>
                                 </select><br><br>

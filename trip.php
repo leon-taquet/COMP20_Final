@@ -98,12 +98,12 @@ function validate()
             expenseN.focus();
             err = true;
         }
-        if (expenseT.value == "")
-        {
-            document.getElementById("errType").style.display = "inline-block";
-            expenseT.focus();
-            err = true;
-        }
+        // if (expenseT.value == "")
+        // {
+        //     document.getElementById("errType").style.display = "inline-block";
+        //     expenseT.focus();
+        //     err = true;
+        // }
         if (!checkAmount(expenseForeign.value))
         {
             document.getElementById("errAmount").style.display = "inline-block";
@@ -258,10 +258,14 @@ window.onload = function()
 		$dbname = "id14882043_itet";
 
 		//From Dashboard
-		$tripName = $_POST["tripid"];
+    extract($_POST);
+		// $tripName = $_POST["tripname"];
+    // $tripID = $_POST["tripdid"];
 		$loginID = $_SESSION["userID"];
 		$homeCurrency = $_SESSION["HomeCurrency"];
-		echo "$tripName <br>  $loginID <br> $currency <br>";
+        $_SESSION["tripID"] = $tripid;
+        $_SESSION["tripname"] = $tripname;
+		//echo "$tripname $tripid <br>  $loginID <br> $homeCurrency <br>";
 
 
 		// Create connection
@@ -271,37 +275,28 @@ window.onload = function()
 		  die("Connection failed: " . $conn->connect_error);
 		}
 		else {
-			 echo "connection successful!<br>";
+			 //echo "connection successful!<br>";
 		}
 
-		$sql = "SELECT tripname, categories.name, expense_date, expense_name,
-						cost_local, local_currency,
-						default_currency,	cost_home,
-						tripID, local_currency, CategoryID
-						FROM trips INNER JOIN expenses INNER JOIN categories
-											 INNER JOIN users
-						ON tripID = trips.ID AND CategoryID = categories.ID
-						AND userID = users.ID";
-						//WHERE userID = " .$loginID. " AND tripname =" .$tripName;
+		// $sql = "SELECT tripname, categories.name, expense_date, expense_name,
+		// 				cost_local, local_currency,
+		// 				default_currency,	cost_home,
+		// 				tripID, local_currency, CategoryID
+		// 				FROM trips INNER JOIN expenses INNER JOIN categories
+		// 									 INNER JOIN users
+		// 				ON tripID = trips.ID AND CategoryID = categories.ID
+		// 				AND userID = users.ID
+		// 				WHERE userID = $loginID AND tripname = '$tripName'";
+    $sql = "SELECT tripname, categories.name, expense_date, expense_name,
+		 				cost_local, local_currency,
+		 				default_currency,	cost_home,
+		 				tripID, local_currency, CategoryID
+						FROM expenses INNER JOIN categories INNER JOIN trips
+						ON CategoryID = categories.ID AND tripID = trips.ID
+						WHERE tripID = $tripid";
 		$result = $conn->query($sql);
 
-
-
-		$tripId = "";
-		$homeCurrency = "";
-		$localCurrency = "";
-		/*SELECT tripname, categories.name, expense_date, expense_name,
-						cost_local, local_currency,
-						default_currency,	cost_home
-						FROM trips INNER JOIN expenses INNER JOIN categories
-											 INNER JOIN users
-						ON tripID = trips.ID AND CategoryID = categories.ID
-						AND userID = users.ID
-						WHERE userID = 1 AND tripname = "Sweet Home Alabama"
-		*/
-
-
-		//output data of each row in a table
+	   //output data of each row in a table
 		//header
 		echo "
 			<table><tr>
@@ -315,12 +310,12 @@ window.onload = function()
 								<th> Home Cost </th>
 						 </tr>
 		";
-		echo mysqli_num_rows($result);
+		//echo mysqli_num_rows($result);
 		if (mysqli_num_rows($result) > 0) {
 
 		  while($row = $result->fetch_assoc()) {
 		    echo "<tr> <td>" . $row["tripname"]
-					 . "</td><td>" . $row["categories.name"]
+					 . "</td><td>" . $row["name"]
 					 . "</td><td>" . $row["expense_date"]
 					 . "</td><td>" . $row["expense_name"]
 					 . "</td><td>" . $row["cost_local"]
@@ -330,24 +325,40 @@ window.onload = function()
 
 				$tripID = $row["tripID"];
 				$localCurrency = $row["local_currency"];
+        $_SESSION["default_currency"] = $row["default_currency"];
 		  }
 
-			echo "</table>" . $homeCurrency . $localCurrency;
+			echo "</table>"; //. $homeCurrency . $localCurrency;
 
 		} else {
 		  echo "</table> 0 results";
 		}
-		$conn->close();
+
+    $sql = "SELECT DISTINCT name, ID FROM categories ORDER BY name";
+    $result = $conn->query($sql);
+
+
+		//$conn->close();
 
 	?>
 	<br><br><br><br>
   <button type="button" id="addexpense" >Add Expense</button>
   <div id="addExpenseForm">
-      <form method="post" onsubmit="return validate()" action="newExpense.php">
+      <form method="post" onsubmit="return validate()" action="expense-validation.php">
           Expense Name: <input type="text" id="expenseName" name="expenseN" value="">
           <div id="errName" class="errMsg">Please enter an expense name.</div>
-          <br> 
-          Type: <input type="text" id="expenseType" name="expenseT" value="">
+          <br>
+          Category: <select name = "categoryID" size = '1'>
+          <?php
+          foreach($result as $row){
+                if ($row['ID'] == 5)
+                  echo "<option value = ".$row['ID']." selected>". $row['name'] ." </option>";
+                else
+                  echo "<option value = ".$row['ID'].">". $row['name'] ." </option>";
+          }
+          $conn->close();
+      	   ?>
+                    </select>
           <div id="errType" class="errMsg">Please enter an expense type.</div>
           <br>
           Amount in Foreign Currency: <input type="text" id="amountForeign" name="expenseForeign" value="">

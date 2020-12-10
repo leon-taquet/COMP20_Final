@@ -162,13 +162,15 @@
             if ($count % 2 == 0) {
                 print "<tr><td align='center'>";
                 print "<form action='http://aboutlct.000webhostapp.com/Final/trip.php' method='post'>
-              <input type='submit' class='lbutton' name='tripid' value='" . $row['tripname'];
+                  <input type = 'hidden' name = 'tripid' value ='". $row['ID']."'>
+              <input type='submit' class='lbutton' name='tripname' value='" . $row['tripname'];
                 print "'/> </form></td>";
             }
             else {
                 print "<td align='center'>";
                 print "<form action='http://aboutlct.000webhostapp.com/Final/trip.php' method='post'>
-              <input type='submit' class='lbutton' name='tripid' value='" . $row['tripname'];
+                  <input type = 'hidden' name = 'tripid' value ='". $row['ID']."'>
+              <input type='submit' class='lbutton' name='tripname' value='" . $row['tripname'];
                 print "'/> </form></td></tr>";
             }
             // print "<td>";
