@@ -23,9 +23,9 @@
     //echo "Connected successfully";
 
     // Add trip
-    foreach($_POST as $key=>$value){
-    echo $key.' '.$value."\n";
-    }
+    // foreach($_POST as $key=>$value){
+    // echo $key.' '.$value."\n";
+    // }
 
     // Have username and password
 

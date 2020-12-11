@@ -1,6 +1,12 @@
 <?php
 // Start the session
 session_start();
+//From Dashboard
+extract($_POST);
+$loginID = $_SESSION["userID"];
+$homeCurrency = $_SESSION["HomeCurrency"];
+$_SESSION["tripID"] = $tripid;
+$_SESSION["tripname"] = $tripname;
 ?>
 
 <!doctype html>
@@ -146,17 +152,24 @@ window.onload = function()
     {
         expenseForeign.onchange = function()
         {
+          <?php
+            echo "var home = '$homeCurrency';";
+           ?>
+            foreign = $("input[name^='foreignCurr']").val();
+
             if (checkDate(date.value) && checkAmount(expenseForeign.value))
             {
                 //INR is "foreign", GBP is "home"
-                useAPI("INR", "GBP", date.value, expenseForeign.value);
+                //$homeCurrency
+                //For foreign use default \
+                useAPI(foreign, home, date.value, expenseForeign.value);
             }
         }
         date.onchange = function()
         {
             if (checkDate(date.value) && checkAmount(expenseForeign.value))
             {
-                useAPI("INR", "GBP", date.value, expenseForeign.value);
+                useAPI(foreign, home, date.value, expenseForeign.value);
             }
         }
     }
@@ -257,14 +270,7 @@ window.onload = function()
 		$password = "WilliamLeonKateriJulia4!";
 		$dbname = "id14882043_itet";
 
-		//From Dashboard
-    extract($_POST);
-		// $tripName = $_POST["tripname"];
-    // $tripID = $_POST["tripdid"];
-		$loginID = $_SESSION["userID"];
-		$homeCurrency = $_SESSION["HomeCurrency"];
-        $_SESSION["tripID"] = $tripid;
-        $_SESSION["tripname"] = $tripname;
+
 		//echo "$tripname $tripid <br>  $loginID <br> $homeCurrency <br>";
 
 
@@ -318,14 +324,13 @@ window.onload = function()
 					 . "</td><td>" . $row["name"]
 					 . "</td><td>" . $row["expense_date"]
 					 . "</td><td>" . $row["expense_name"]
-					 . "</td><td>" . $row["cost_local"]
 					 . "</td><td>" . $row["local_currency"]
+					 . "</td><td>" . number_format($row["cost_local"],2)
 					 . "</td><td>" . $row["default_currency"]
-					 . "</td><td>" . $row["cost_home"] . "</td></tr>";
+					 . "</td><td>" . number_format($row["cost_home"],2) . "</td></tr>";
 
 				$tripID = $row["tripID"];
 				$localCurrency = $row["local_currency"];
-        $_SESSION["default_currency"] = $row["default_currency"];
 		  }
 
 			echo "</table>"; //. $homeCurrency . $localCurrency;
@@ -356,7 +361,7 @@ window.onload = function()
                 else
                   echo "<option value = ".$row['ID'].">". $row['name'] ." </option>";
           }
-          $conn->close();
+
       	   ?>
                     </select>
           <div id="errType" class="errMsg">Please enter an expense type.</div>
@@ -371,7 +376,16 @@ window.onload = function()
           <div id="errDate" class="errMsg">Please enter a valid date in the form "YYYY-MM-DD".</div>
           <br>
           Amount in Home Currency: <input type="text" id="amountHome" name="expenseHome">
-          <br>
+          <?php
+              $sql = "SELECT default_currency FROM trips WHERE ID = $tripid";
+              $result = $conn->query($sql);
+              foreach($result as $row){
+                    echo "<input type='hidden' value = '".$row['default_currency']."' name = 'foreignCurr'>";
+                    $_SESSION["default_currency"] = $row['default_currency'];
+              }
+              $conn->close();
+           ?>
+           <br>
           <input type="submit" value="Submit Expense">
       </form>
   </div>
