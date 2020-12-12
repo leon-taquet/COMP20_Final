@@ -318,8 +318,7 @@ window.onload = function()
   
 	<div class="bod"> 
   <br>
-    <button id="back"><a href='dashboard.php' id="backlink">Back</a></button>  
-
+    <button id="back"><a href='dashboard.php' id="backlink">Back</a></button>
 	<?php
     echo "<h1>" . $tripname . "</h1>";
 
@@ -458,6 +457,7 @@ window.onload = function()
       </form>
   </div>
   <br>
+  <form class='deleteTrip'><input type=button id='deleteTrip' value="Delete Trip"></form>
   </div>
   <br><br><br>
 	<footer>ITET</footer>
