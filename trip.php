@@ -22,9 +22,65 @@ crossorigin="anonymous">
 </script>
 <title> Trip Detail </title>
 <style>
+    h1 {
+        text-align: center;
+        font-family: Times New Roman;
+        font-variant: small-caps;
+        font-size: 50px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        color: black;
+        }
+    .bod{
+        width: 70%;
+        margin: 0 auto;
+        /*background-color: #EAEFFA;*/
+    }
+    table{
+        width:100%;
+        margin: 0 auto;
+        border: 3px solid black;
+        padding: 10px 10px;
+    }
+    th {
+      border: 1px solid black;
+      text-align: center;
+      padding:3px 3px;
+
+    }
+
+    tr{
+        padding: 10px 10px;
+        border: 1px solid black;
+    }
+    td {
+        padding-bottom: 20px;
+        padding-right: 10px;
+        padding-left: 10px;
+        border: 1px solid black;
+        text-align:center;
+    }
     input {
         font-family: Times New Roman;
         font-variant: none;
+    }
+    button {
+            width: 100%;
+            text-align: center;
+            margin: 0 auto;
+            padding: 5px 5px;
+            font-size: 20px;
+            font-family: Times New Roman;
+            font-variant: small-caps;
+            border-radius: 15px;
+            border-width: 5px;
+            border-color: #4380FE;
+
+
+        }
+    button:hover {
+            background-color: #4380FE;
+            color: white;
     }
     #addExpenseForm {
         display: none;
@@ -184,50 +240,6 @@ window.onload = function()
 </script>
 </head>
 
-<style>
-			h1 {
-					text-align: center;
-					font-family: Times New Roman;
-					font-variant: small-caps;
-					font-size: 50px;
-					padding-bottom: 10px;
-			}
-			.bod{
-					width: 70%;
-					margin: 0 auto;
-			}
-			table{
-					width:70%;
-					margin: 0 auto;
-			}
-
-			tr{
-					padding: 10px 10px;
-			}
-			input{
-					font-family: Times New Roman;
-					font-variant: none;
-			}
-			button {
-					width: 70%;
-					text-align: center;
-					margin: 0 auto;
-					font-size: 25px;
-					font-family: Times New Roman;
-					font-variant: small-caps;
-					justify-content: center;
-			}
-			.lbutton {
-					background-color: #E9E9E9;
-					color: #00508F;
-					border: 2px solid black;
-					padding: 20px 20px;
-					border-radius: 10px;
-			}
-			.lbutton:hover{
-					background-color: white;
-			}
-	</style>
 
 <body>
 	<header><a class="header" href="dashboard.php">International Travel Expense Tracker</a></header>
@@ -236,7 +248,7 @@ window.onload = function()
 			<ul>
 					<div class="leftnav">
 							<li><a href = "aboutdash.html">About</a></li>
-							<li><a href = "dashboard.php" class="currpage">Dashboard</a></li>
+							<li><a href = "dashboard.php">Dashboard</a></li>
 							<div class="rightnav">
 
 									<!-- END SESSION IF CLICKED -->
@@ -249,11 +261,8 @@ window.onload = function()
 
 	<div class="bod">
 
-	<h1> Trip Detail </h1>
-
-
-
 	<?php
+    echo "<h1>" . $tripname . "</h1>";
 
 		/*
 		This page connects to the MySQL server and display all previous
@@ -262,16 +271,11 @@ window.onload = function()
 		William Huang
 		*/
 
-
-
 		//for server page
 		$servername = "localhost";
 		$username = "id14882043_ltaque01";
 		$password = "WilliamLeonKateriJulia4!";
 		$dbname = "id14882043_itet";
-
-
-		//echo "$tripname $tripid <br>  $loginID <br> $homeCurrency <br>";
 
 
 		// Create connection
@@ -306,28 +310,29 @@ window.onload = function()
 		//header
 		echo "
 			<table><tr>
-								<th> Trip </th>
-								<th> Category </th>
-								<th> Date </th>
-								<th> Name </th>
-								<th> Local Currency </th>
-								<th> Local Cost </th>
-								<th> Home Currency </th>
-								<th> Home Cost </th>
+              <th> Date </th>
+              <th> Name </th>
+							<th> Category </th>
+							<th> Local Cost </th>
+							<th> Home Cost </th>
+              <th> Edit </th>
+              <th> Delete </th>
 						 </tr>
 		";
 		//echo mysqli_num_rows($result);
 		if (mysqli_num_rows($result) > 0) {
 
 		  while($row = $result->fetch_assoc()) {
-		    echo "<tr> <td>" . $row["tripname"]
-					 . "</td><td>" . $row["name"]
-					 . "</td><td>" . $row["expense_date"]
+		    echo "<tr> <td>" . $row["expense_date"]
 					 . "</td><td>" . $row["expense_name"]
-					 . "</td><td>" . $row["local_currency"]
-					 . "</td><td>" . number_format($row["cost_local"],2)
-					 . "</td><td>" . $row["default_currency"]
-					 . "</td><td>" . number_format($row["cost_home"],2) . "</td></tr>";
+           . "</td><td>" . $row["name"]
+					 . "</td><td>" . $row["local_currency"] . number_format($row["cost_local"],2) 
+					 . "</td><td>" . $row["default_currency"] .number_format($row["cost_home"],2) 
+           . "</td><td>" . "Editbutton"
+           . "</td><td>" . "DeleteButton"
+           . "</td></tr>";
+
+           
 
 				$tripID = $row["tripID"];
 				$localCurrency = $row["local_currency"];
@@ -390,8 +395,8 @@ window.onload = function()
       </form>
   </div>
   <br>
-  <br>
-  <br>
+  </div>
+  <br><br><br>
 	<footer>ITET</footer>
 
 </body>

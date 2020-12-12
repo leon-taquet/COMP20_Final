@@ -21,8 +21,7 @@
         .bod{
             width: 70%;
             margin: 0 auto;
-            background-color: #EAEFFA;
-
+            /*background-color: #EAEFFA;*/
         }
         table{
             width:70%;
