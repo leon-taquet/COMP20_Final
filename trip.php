@@ -46,25 +46,30 @@ crossorigin="anonymous">
       border: 1px solid black;
       text-align: center;
       padding:3px 3px;
+      font-family: Times New Roman;
+      font-variant: small-caps;
+      font-size: 18px;
 
     }
 
     tr{
         padding: 10px 10px;
         border: 1px solid black;
+        text-align: center;
     }
     td {
-        padding-bottom: 20px;
+        padding-bottom: 10px;
         padding-right: 10px;
         padding-left: 10px;
         border: 1px solid black;
         text-align:center;
+        vertical-align: center;
     }
     input {
         font-family: Times New Roman;
         font-variant: none;
     }
-    button {
+    button, .button {
             width: 100%;
             text-align: center;
             margin: 0 auto;
@@ -78,12 +83,51 @@ crossorigin="anonymous">
 
 
         }
-    button:hover {
+    button:hover, .button:hover {
             background-color: #4380FE;
             color: white;
     }
+    label{
+            font-family: Times New Roman;
+            font-variant: small-caps;
+            font-size: 15px;
+    }
+    .deletebutton{
+      margin: 0 auto;
+      padding: 5px 30px;
+      margin-bottom: 5px;
+      margin-top: 10px;
+      border-radius: 15px;
+      background-color: red;
+    }
+    #back {
+      font-size:15px;
+      width:130px;
+    }
+    #backlink {
+      text-decoration: none;
+      text-align: center;
+      color: black;
+      display: inline-block;
+      padding-right: 40px;
+      padding-left:40px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
     #addExpenseForm {
         display: none;
+        margin: 0 auto;
+        padding-left:40px;
+    }
+    #addexpensebuttonsubmit {
+        margin: 0 auto;
+        padding: 5px 5px;
+        font-size: 18px;
+        font-family: Times New Roman;
+        font-variant: small-caps;
+        border-radius: 15px;
+        border-width: 5px;
+        border-color: #4380FE;
     }
     .errMsg {color: #FF0000;
         border: solid 1px #d20e11;
@@ -231,7 +275,7 @@ window.onload = function()
     }
     //function showForm()
     //{
-    $('#addexpense').click( function(){
+    $('#addexpense').click(function(){
       $("#addExpenseForm").slideToggle(500);
       //document.getElementById("addExpenseForm").style.display='display';
     });
@@ -260,6 +304,8 @@ window.onload = function()
 	</nav>
 
 	<div class="bod">
+    <br>
+    <button id="back"><a href='dashboard.php' id="backlink">Back</a></button>
 
 	<?php
     echo "<h1>" . $tripname . "</h1>";
@@ -288,15 +334,6 @@ window.onload = function()
 			 //echo "connection successful!<br>";
 		}
 
-		// $sql = "SELECT tripname, categories.name, expense_date, expense_name,
-		// 				cost_local, local_currency,
-		// 				default_currency,	cost_home,
-		// 				tripID, local_currency, CategoryID
-		// 				FROM trips INNER JOIN expenses INNER JOIN categories
-		// 									 INNER JOIN users
-		// 				ON tripID = trips.ID AND CategoryID = categories.ID
-		// 				AND userID = users.ID
-		// 				WHERE userID = $loginID AND tripname = '$tripName'";
     $sql = "SELECT tripname, categories.name, expense_date, expense_name,
 		 				cost_local, local_currency,
 		 				default_currency,	cost_home,
@@ -315,7 +352,6 @@ window.onload = function()
 							<th> Category </th>
 							<th> Local Cost </th>
 							<th> Home Cost </th>
-              <th> Edit </th>
               <th> Delete </th>
 						 </tr>
 		";
@@ -328,11 +364,8 @@ window.onload = function()
            . "</td><td>" . $row["name"]
 					 . "</td><td>" . $row["local_currency"] . number_format($row["cost_local"],2) 
 					 . "</td><td>" . $row["default_currency"] .number_format($row["cost_home"],2) 
-           . "</td><td>" . "Editbutton"
-           . "</td><td>" . "DeleteButton"
+           . "</td><td><form class='deleteform'><input type=button class='deletebutton'></form>" 
            . "</td></tr>";
-
-           
 
 				$tripID = $row["tripID"];
 				$localCurrency = $row["local_currency"];
@@ -351,14 +384,25 @@ window.onload = function()
 		//$conn->close();
 
 	?>
-	<br><br><br><br>
+	<br><br>
   <button type="button" id="addexpense" >Add Expense</button>
   <div id="addExpenseForm">
+      <br>
       <form method="post" onsubmit="return validate()" action="expense-validation.php">
-          Expense Name: <input type="text" id="expenseName" name="expenseN" value="">
-          <div id="errName" class="errMsg">Please enter an expense name.</div>
+
+          <label>Expense Name: &nbsp</label><input type="text" id="expenseName" name="expenseN" value="">
+
+          &nbsp &nbsp &nbsp
+
+          <label>Amount in Foreign Currency: &nbsp</label><input type="text" id="amountForeign" name="expenseForeign" value="">
+
           <br>
-          Category: <select name = "categoryID" size = '1'>
+          <div id="errName" class="errMsg">Please enter an expense name.</div>
+          &nbsp &nbsp &nbsp
+          <div id="errAmount" class="errMsg">Please enter a numerical expense amount.</div>
+          <br>
+
+          <label>Category: &nbsp</label><select name = "categoryID" size = '1'>
           <?php
           foreach($result as $row){
                 if ($row['ID'] == 5)
@@ -366,21 +410,13 @@ window.onload = function()
                 else
                   echo "<option value = ".$row['ID'].">". $row['name'] ." </option>";
           }
-
       	   ?>
-                    </select>
+          </select>
           <div id="errType" class="errMsg">Please enter an expense type.</div>
-          <br>
-          Amount in Foreign Currency: <input type="text" id="amountForeign" name="expenseForeign" value="">
-          <div id="errAmount" class="errMsg">Please enter a numerical expense amount.</div>
-          <br>
-          <script type="text/javascript">
-              code = "Date: <input type='text'id='expenseDate'name='date'value='" + getDate() + "'>"
-              document.writeln(code);
-          </script>
-          <div id="errDate" class="errMsg">Please enter a valid date in the form "YYYY-MM-DD".</div>
-          <br>
-          Amount in Home Currency: <input type="text" id="amountHome" name="expenseHome">
+
+          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+
+          <label>Amount in Home Currency: &nbsp</label><input type="text" id="amountHome" name="expenseHome">
           <?php
               $sql = "SELECT default_currency FROM trips WHERE ID = $tripid";
               $result = $conn->query($sql);
@@ -390,8 +426,16 @@ window.onload = function()
               }
               $conn->close();
            ?>
-           <br>
-          <input type="submit" value="Submit Expense">
+          
+          <br><br>
+          <script type="text/javascript">
+              code = "<label>Date: &nbsp</label><input type='text'id='expenseDate'name='date'value='" + getDate() + "'>"
+              document.writeln(code);
+          </script>
+          <div id="errDate" class="errMsg">Please enter a valid date in the form "YYYY-MM-DD".</div>
+          
+           <br><br>
+          <input type="submit" id="addexpensebuttonsubmit" value="Submit Expense">
       </form>
   </div>
   <br>

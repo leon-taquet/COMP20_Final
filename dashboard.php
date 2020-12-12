@@ -46,7 +46,7 @@
             text-align: center;
             margin: 0 auto;
             padding: 5px 5px;
-            font-size: 18px;
+            font-size: 20px;
             font-family: Times New Roman;
             font-variant: small-caps;
             border-radius: 15px;
