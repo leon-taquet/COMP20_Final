@@ -27,7 +27,7 @@ crossorigin="anonymous">
         font-family: Times New Roman;
         font-variant: small-caps;
         font-size: 50px;
-        padding-top: 10px;
+        /*padding-top: 3px;*/
         padding-bottom: 10px;
         color: black;
         }
@@ -92,6 +92,15 @@ crossorigin="anonymous">
             font-variant: small-caps;
             font-size: 15px;
     }
+    .total {
+      font-size: 20px;
+    }
+    .totaldiv {
+      border: 3px solid black;
+      width: 100%;
+      padding: 5px 5px 5px 5px;
+      text-align: center;
+    }
     .deletebutton{
       margin: 0 auto;
       padding: 5px 30px;
@@ -113,6 +122,9 @@ crossorigin="anonymous">
       padding-left:40px;
       padding-top: 10px;
       padding-bottom: 10px;
+    }
+    #backlink:hover {
+      color:white;
     }
     #addExpenseForm {
         display: none;
@@ -250,26 +262,26 @@ window.onload = function()
 {
     with(document.forms[0])
     {
-        expenseForeign.onchange = function()
+        amountForeign.onchange = function()
         {
           <?php
             echo "var home = '$homeCurrency';";
            ?>
             foreign = $("input[name^='foreignCurr']").val();
 
-            if (checkDate(date.value) && checkAmount(expenseForeign.value))
+            if (checkDate(expenseDate.value) && checkAmount(amountForeign.value))
             {
                 //INR is "foreign", GBP is "home"
                 //$homeCurrency
                 //For foreign use default \
-                useAPI(foreign, home, date.value, expenseForeign.value);
+                useAPI(foreign, home, expenseDate.value, amountForeign.value);
             }
         }
-        date.onchange = function()
+        expenseDate.onchange = function()
         {
-            if (checkDate(date.value) && checkAmount(expenseForeign.value))
+            if (checkDate(expenseDate.value) && checkAmount(expenseForeign.value))
             {
-                useAPI(foreign, home, date.value, expenseForeign.value);
+                useAPI(foreign, home, expenseDate.value, expenseForeign.value);
             }
         }
     }
@@ -303,9 +315,10 @@ window.onload = function()
 			</ul>
 	</nav>
 
-	<div class="bod">
-    <br>
-    <button id="back"><a href='dashboard.php' id="backlink">Back</a></button>
+  
+	<div class="bod"> 
+  <br>
+    <button id="back"><a href='dashboard.php' id="backlink">Back</a></button>  
 
 	<?php
     echo "<h1>" . $tripname . "</h1>";
@@ -343,8 +356,6 @@ window.onload = function()
 						WHERE tripID = $tripid";
 		$result = $conn->query($sql);
 
-	   //output data of each row in a table
-		//header
 		echo "
 			<table><tr>
               <th> Date </th>
@@ -357,15 +368,20 @@ window.onload = function()
 		";
 		//echo mysqli_num_rows($result);
 		if (mysqli_num_rows($result) > 0) {
+      $local = 0;
+      $home = 0;
 
 		  while($row = $result->fetch_assoc()) {
 		    echo "<tr> <td>" . $row["expense_date"]
 					 . "</td><td>" . $row["expense_name"]
            . "</td><td>" . $row["name"]
-					 . "</td><td>" . $row["local_currency"] . number_format($row["cost_local"],2) 
-					 . "</td><td>" . $row["default_currency"] .number_format($row["cost_home"],2) 
+					 . "</td><td>" . number_format($row["cost_local"],2). $row["local_currency"]
+					 . "</td><td>" . number_format($row["cost_home"],2). $homeCurrency
            . "</td><td><form class='deleteform'><input type=button class='deletebutton'></form>" 
            . "</td></tr>";
+
+        $local += $row["cost_local"];
+        $home += $row["cost_home"];
 
 				$tripID = $row["tripID"];
 				$localCurrency = $row["local_currency"];
@@ -384,7 +400,10 @@ window.onload = function()
 		//$conn->close();
 
 	?>
-	<br><br>
+  <br>
+  <div class="totaldiv">
+  <label class="total">Total <?php echo "(" . $homeCurrency . "): " . number_format($home,2); ?> </label>
+	<br></div><br>
   <button type="button" id="addexpense" >Add Expense</button>
   <div id="addExpenseForm">
       <br>
