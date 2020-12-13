@@ -390,7 +390,9 @@ window.onload = function()
 			echo "</table>"; //. $homeCurrency . $localCurrency;
 
 		} else {
-		  echo "</table> 0 results";
+			$local = 0;
+			$home = 0;
+		  echo "</table>";
 		}
 
     $sql = "SELECT DISTINCT name, ID FROM categories ORDER BY name";
