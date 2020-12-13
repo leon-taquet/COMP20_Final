@@ -254,19 +254,12 @@ window.onload = function()
             foreign = $("input[name^='foreignCurr']").val();
 
             if (checkDate(expenseDate.value) && checkAmount(amountForeign.value))
-            {
-                //INR is "foreign", GBP is "home"
-                //$homeCurrency
-                //For foreign use default \
                 useAPI(foreign, home, expenseDate.value, amountForeign.value);
-            }
         }
         expenseDate.onchange = function()
         {
             if (checkDate(expenseDate.value) && checkAmount(expenseForeign.value))
-            {
                 useAPI(foreign, home, expenseDate.value, expenseForeign.value);
-            }
         }
     }
 
