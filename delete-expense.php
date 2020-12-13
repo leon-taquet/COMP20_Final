@@ -33,6 +33,8 @@
     //extract($_POST)
     $trip = $_SESSION["tripID"];
     $tripname = $_SESSION["tripname"];
+    $local_currency = $_SESSION["default_currency"];
+    $expenseID = $_POST["expenseID"];
 
 
     $sql = "DELETE FROM expenses WHERE ID = $expenseID";
@@ -40,7 +42,7 @@
     $conn->query($sql);
 
 
-      $msg = "<h1> Expense deleted... Adding to Trip Page </h1>";
+      // $msg = "<h1> Expense logged... Adding to Trip Page </h1>";
       $form = "<form method = 'post' action = 'trip.php'> <input type = 'hidden' name = 'tripid' value = $trip >
       <input type = 'hidden' name = 'tripname' value = '$tripname' >
       </form>";

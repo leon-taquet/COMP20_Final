@@ -315,8 +315,8 @@ window.onload = function()
 			</ul>
 	</nav>
 
-  
-	<div class="bod"> 
+
+	<div class="bod">
   <br>
     <button id="back"><a href='dashboard.php' id="backlink">Back</a></button>
 	<?php
@@ -349,7 +349,7 @@ window.onload = function()
     $sql = "SELECT tripname, categories.name, expense_date, expense_name,
 		 				cost_local, local_currency,
 		 				default_currency,	cost_home,
-		 				tripID, local_currency, CategoryID
+		 				tripID, local_currency, CategoryID, expenses.ID
 						FROM expenses INNER JOIN categories INNER JOIN trips
 						ON CategoryID = categories.ID AND tripID = trips.ID
 						WHERE tripID = $tripid";
@@ -376,7 +376,8 @@ window.onload = function()
            . "</td><td>" . $row["name"]
 					 . "</td><td>" . number_format($row["cost_local"],2). $row["local_currency"]
 					 . "</td><td>" . number_format($row["cost_home"],2). $homeCurrency
-           . "</td><td><form class='deleteform'><input type=button class='deletebutton'></form>" 
+           . "</td><td><form method = 'post' action = 'delete-expense.php' class='deleteform'><input type='submit'  value='' class='deletebutton'>
+           <input type = 'hidden' name = 'expenseID' value =".$row['ID']."></form>"
            . "</td></tr>";
 
         $local += $row["cost_local"];
@@ -444,14 +445,14 @@ window.onload = function()
               }
               $conn->close();
            ?>
-          
+
           <br><br>
           <script type="text/javascript">
               code = "<label>Date: &nbsp</label><input type='text'id='expenseDate'name='date'value='" + getDate() + "'>"
               document.writeln(code);
           </script>
           <div id="errDate" class="errMsg">Please enter a valid date in the form "YYYY-MM-DD".</div>
-          
+
            <br><br>
           <input type="submit" id="addexpensebuttonsubmit" value="Submit Expense">
       </form>
