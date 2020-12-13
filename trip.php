@@ -253,13 +253,15 @@ window.onload = function()
            ?>
             foreign = $("input[name^='foreignCurr']").val();
 
-            if (checkDate(expenseDate.value) && checkAmount(amountForeign.value))
+            if (checkDate(expenseDate.value) && checkAmount(amountForeign.value)) {
                 useAPI(foreign, home, expenseDate.value, amountForeign.value);
+            }
         }
         expenseDate.onchange = function()
         {
-            if (checkDate(expenseDate.value) && checkAmount(expenseForeign.value))
+            if (checkDate(expenseDate.value) && checkAmount(expenseForeign.value)) {
                 useAPI(foreign, home, expenseDate.value, expenseForeign.value);
+            }
         }
     }
 
@@ -323,8 +325,7 @@ $sql = "SELECT tripname, categories.name, expense_date, expense_name,
 		WHERE tripID = $tripid";
 	$result = $conn->query($sql);
 
-echo "<table>
-    <tr>
+echo "<table><tr>
         <th> Date </th>
         <th> Name </th>
     		<th> Category </th>
