@@ -428,17 +428,17 @@ $result = $conn->query($sql);
                 "id='expenseDate'name='date'value='" + getDate() + "'>"
             document.writeln(code);
         </script>
-        <div id="errDate" class="errMsg">Please enter a valid date in the form "YYYY-MM-DD".</div>
-
+        <div id="errDate" class="errMsg">Please enter a valid date in the form
+            "YYYY-MM-DD".</div>
         <br><br>
         <input type="submit" id="addexpensebuttonsubmit" value="Submit Expense">
     </form>
 </div>
-<br>
-<form class='deleteTrip'><input type=button id='deleteTrip' value="Delete Trip"></form>
+    <br>
+    <form class='deleteTrip'><input type=button id='deleteTrip' value="Delete Trip">
+    </form>
 </div>
 <br><br><br>
 <footer>ITET</footer>
-
 </body>
 </html>
