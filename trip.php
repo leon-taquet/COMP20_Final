@@ -27,14 +27,12 @@ crossorigin="anonymous">
         font-family: Times New Roman;
         font-variant: small-caps;
         font-size: 50px;
-        /*padding-top: 3px;*/
         padding-bottom: 10px;
         color: black;
-    }
+        }
     .bod {
         width: 70%;
         margin: 0 auto;
-        /*background-color: #EAEFFA;*/
     }
     table {
         width:100%;
@@ -145,6 +143,7 @@ crossorigin="anonymous">
     }
 </style>
 <script language="javascript">
+
 function getDate()
 {
     today = new Date();
@@ -253,21 +252,22 @@ window.onload = function()
            ?>
             foreign = $("input[name^='foreignCurr']").val();
 
-            if (checkDate(expenseDate.value) && checkAmount(amountForeign.value)) {
+            if (checkDate(expenseDate.value) && checkAmount(amountForeign.value))
+            {
                 useAPI(foreign, home, expenseDate.value, amountForeign.value);
             }
         }
         expenseDate.onchange = function()
         {
-            if (checkDate(expenseDate.value) && checkAmount(expenseForeign.value)) {
+            if (checkDate(expenseDate.value) && checkAmount(expenseForeign.value))
+            {
                 useAPI(foreign, home, expenseDate.value, expenseForeign.value);
             }
         }
     }
 
-    $('#addexpense').click(
-        function() {
-        $("#addExpenseForm").slideToggle(500);
+    $('#addexpense').click(function(){
+      $("#addExpenseForm").slideToggle(500);
     });
 }
 </script>
@@ -283,9 +283,8 @@ window.onload = function()
 			<li><a href = "dashboard.php">Dashboard</a></li>
 			<div class="rightnav">
 				<!-- END SESSION IF CLICKED -->
-				<li><a href = "logout.php"><span
-                    class="glyphicon glyphicon-log-out"></span>
-                    Logout</a>
+				<li><a href = "logout.php">
+                    <span class="glyphicon glyphicon-log-out"></span> Logout</a>
                 </li>
 			</div>
 		</div>
@@ -293,146 +292,146 @@ window.onload = function()
 </nav>
 
 <div class="bod">
-<br>
-<button id="back"><a href='dashboard.php' id="backlink">Back</a></button>
-<?php
-echo "<h1>" . $tripname . "</h1>";
+    <br>
+    <button id="back"><a href='dashboard.php' id="backlink">Back</a></button>
+    <?php
+    echo "<h1>$tripname</h1>";
 
-/* This page connects to the MySQL server and display all previous
-expense entries of a user. */
+    //for server page
+    $servername = "localhost";
+    $username = "id14882043_ltaque01";
+    $password = "WilliamLeonKateriJulia4!";
+    $dbname = "id14882043_itet";
 
-//for server page
-$servername = "localhost";
-$username = "id14882043_ltaque01";
-$password = "WilliamLeonKateriJulia4!";
-$dbname = "id14882043_itet";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-else {
-	 //echo "connection successful!<br>";
-}
-
-$sql = "SELECT tripname, categories.name, expense_date, expense_name,
-			cost_local, local_currency, default_currency, cost_home,
-			tripID, local_currency, CategoryID, expenses.ID
-		FROM expenses INNER JOIN categories INNER JOIN trips
-		ON CategoryID = categories.ID AND tripID = trips.ID
-		WHERE tripID = $tripid";
-	$result = $conn->query($sql);
-
-echo "<table><tr>
-        <th> Date </th>
-        <th> Name </th>
-    		<th> Category </th>
-    		<th> Local Cost </th>
-    		<th> Home Cost </th>
-            <th> Delete </th>
-    </tr>";
-if (mysqli_num_rows($result) > 0) {
-    $local = 0;
-    $home = 0;
-
-    while($row = $result->fetch_assoc()) {
-        echo "<tr><td>" . $row["expense_date"] . "</td><td>" .
-            $row["expense_name"] . "</td><td>" . $row["name"] . "</td><td>" .
-            number_format($row["cost_local"],2) . $row["local_currency"] .
-            "</td><td>" . number_format($row["cost_home"],2). $homeCurrency .
-            "</td><td><form method = 'post' action = 'delete-expense.php'" .
-            "class='deleteform'><input type='submit'  value=''" .
-            "class='deletebutton'><input type = 'hidden' name = 'expenseID'" .
-            "value =".$row['ID']."></form></td></tr>";
-
-        $local += $row["cost_local"];
-        $home += $row["cost_home"];
-
-        $tripID = $row["tripID"];
-        $localCurrency = $row["local_currency"];
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    echo "</table>";
-}
-else {
-    $local = 0;
-    $home = 0;
-    echo "</table>";
-}
+    $sql = "SELECT tripname, categories.name, expense_date, expense_name,
+				cost_local, local_currency, default_currency, cost_home,
+				tripID, local_currency, CategoryID, expenses.ID
+			FROM expenses INNER JOIN categories INNER JOIN trips
+			ON CategoryID = categories.ID AND tripID = trips.ID
+			WHERE tripID = $tripid";
+    $result = $conn->query($sql);
 
-$sql = "SELECT DISTINCT name, ID FROM categories ORDER BY name";
-$result = $conn->query($sql);
-?>
+    echo "<table>
+        <tr>
+            <th> Date </th>
+            <th> Name </th>
+        	<th> Category </th>
+          	<th> Local Cost </th>
+        	<th> Home Cost </th>
+            <th> Delete </th>
+        </tr>";
+    if (mysqli_num_rows($result) > 0) {
+        $local = 0;
+        $home = 0;
 
-<br>
-<div class="totaldiv">
-<label class="total">Total <?php echo "(" . $homeCurrency . "): " .
-    number_format($home,2); ?> </label>
-<br>
-</div>
-<br>
-<button type="button" id="addexpense" >Add Expense</button>
+        while($row = $result->fetch_assoc()) {
+            echo "<tr> <td>" . $row["expense_date"] . "</td><td>" .
+                $row["expense_name"] . "</td><td>" . $row["name"] .
+                "</td><td>" . number_format($row["cost_local"],2) .
+                $row["local_currency"] . "</td><td>" .
+                number_format($row["cost_home"],2) . $homeCurrency .
+                "</td><td><form method = 'post' action = 'delete-expense.php'" .
+                "class='deleteform'><input type='submit'  value=''" .
+                "class='deletebutton'><input type = 'hidden' name =" .
+                "'expenseID' value =" . $row['ID']."></form></td></tr>";
+            $local += $row["cost_local"];
+            $home += $row["cost_home"];
+
+        	$tripID = $row["tripID"];
+        	$localCurrency = $row["local_currency"];
+        }
+        echo "</table>";
+    }
+    else {
+    	$local = 0;
+    	$home = 0;
+        echo "</table>";
+    }
+
+    $sql = "SELECT DISTINCT name, ID FROM categories ORDER BY name";
+    $result = $conn->query($sql);
+    ?>
+    <br>
+    <div class="totaldiv">
+        <label class="total">Total
+            <?php echo "(" . $homeCurrency . "): " . number_format($home,2);
+            ?>
+        </label>
+        <br>
+    </div>
+    <br>
+    <button type="button" id="addexpense">Add Expense</button>
     <div id="addExpenseForm">
-    <br>
-    <form method="post" onsubmit="return validate()"
-        action="expense-validation.php">
-        <label>Expense Name: &nbsp</label><input type="text" id="expenseName"
-            name="expenseN" value="">
-        &nbsp &nbsp &nbsp
-        <label>Amount in Foreign Currency: &nbsp</label><input type="text"
-            id="amountForeign" name="expenseForeign" value="">
         <br>
-        <div id="errName" class="errMsg">Please enter an expense name.</div>
-        &nbsp &nbsp &nbsp
-        <div id="errAmount" class="errMsg">Please enter a numerical expense
-            amount.</div>
-        <br>
-        <label>Category: &nbsp</label><select name = "categoryID" size = '1'>
-        <?php
-        foreach($result as $row) {
-            if ($row['ID'] == 5) {
-                echo "<option value = ".$row['ID']." selected>" .
-                $row['name'] . " </option>";
+        <form method="post" onsubmit="return validate()"
+            action="expense-validation.php">
+            <label>Expense Name: &nbsp</label><input type="text"
+                id="expenseName" name="expenseN" value="">
+            &nbsp &nbsp &nbsp
+            <label>Amount in Foreign Currency: &nbsp</label>
+            <input type="text" id="amountForeign" name="expenseForeign"
+                value="">
+            <br>
+            <div id="errName" class="errMsg">Please enter an expense name.</div>
+            &nbsp &nbsp &nbsp
+            <div id="errAmount" class="errMsg">Please enter a numerical expense
+                amount.</div>
+            <br>
+            <label>Category: &nbsp</label>
+            <select name = "categoryID" size = '1'>
+            <?php
+            foreach($result as $row) {
+                if ($row['ID'] == 5)
+                  echo "<option value = ".$row['ID'] . " selected>" .
+                      $row['name'] . " </option>";
+                else
+                  echo "<option value = ".$row['ID'].">". $row['name'] .
+                      " </option>";
             }
-            else {
-                echo "<option value = ".$row['ID'].">" . $row['name'] .
-                " </option>";
-            }
-        }
-        ?>
-        </select>
-        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-        <label>Amount in Home Currency: &nbsp</label>
-        <input type="text" id="amountHome" name="expenseHome">
-        <?php
-        $sql = "SELECT default_currency FROM trips WHERE ID = $tripid";
-        $result = $conn->query($sql);
-        foreach($result as $row) {
-            echo "<input type='hidden' value = '" . $row['default_currency'] .
-            "' name = 'foreignCurr'>";
-            $_SESSION["default_currency"] = $row['default_currency'];
-        }
-        $conn->close();
-        ?>
-        <br><br>
-        <script type="text/javascript">
-            code = "<label>Date: &nbsp</label><input type='text'" .
-                "id='expenseDate'name='date'value='" + getDate() + "'>"
-            document.writeln(code);
-        </script>
-        <div id="errDate" class="errMsg">Please enter a valid date in the form
-            "YYYY-MM-DD".</div>
-        <br><br>
-        <input type="submit" id="addexpensebuttonsubmit" value="Submit Expense">
-    </form>
-</div>
+    	    ?>
+            </select>
+            <div id="errType" class="errMsg">Please enter an expense type.</div>
+            &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+            &nbsp
+            <label>Amount in Home Currency: &nbsp</label>
+            <input type="text" id="amountHome" name="expenseHome">
+            <?php
+                $sql = "SELECT default_currency FROM trips WHERE ID = $tripid";
+                $result = $conn->query($sql);
+                foreach($result as $row) {
+                    echo "<input type='hidden' value = '" .
+                        $row['default_currency'] . "' name = 'foreignCurr'>";
+                    $_SESSION["default_currency"] = $row['default_currency'];
+                }
+                $conn->close();
+            ?>
+            <br><br>
+            <script type="text/javascript">
+                code = "<label>Date: &nbsp</label><input type='text'" +
+                    "id='expenseDate'name='date'value='" + getDate() + "'>";
+                document.writeln(code);
+            </script>
+            <div id="errDate" class="errMsg">Please enter a valid date in the
+                form "YYYY-MM-DD".</div>
+            <br><br>
+            <input type="submit" id="addexpensebuttonsubmit"
+                value="Submit Expense">
+        </form>
+    </div>
     <br>
-    <form class='deleteTrip'><input type=button id='deleteTrip' value="Delete Trip">
+    <form class='deleteTrip'>
+        <input type=button id='deleteTrip' value="Delete Trip">
     </form>
 </div>
 <br><br><br>
+
 <footer>ITET</footer>
 </body>
 </html>
