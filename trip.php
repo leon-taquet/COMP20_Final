@@ -216,60 +216,46 @@ function validate()
             document.getElementById("errDate").style.display = "inline-block";
             date.focus();
             err = true;
-        }
     }
+}
     return !err;
 }
 
-function useAPI(foreign, home, date, amount)
-{
-    document.getElementById("amountForeign").value = parseFloat(amount).toFixed(2);
+function useAPI(foreign, home, date, amount) {
+    $("#amountForeign").val(parseFloat(amount).toFixed(2));
     request = new XMLHttpRequest();
     request.open("GET", "http://api.currencylayer.com/"
         + "historical?access_key=782d6f73de40f0bd7651de14e8196b0e&date=" + date
         + "&currencies=" + foreign + "," + home, true);
-    request.onreadystatechange = function()
-    {
+    request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200)
         {
             parsed = JSON.parse(request.responseText);
             conversion = (amount / parsed.quotes["USD" +
-                foreign]) / parsed.quotes["USD" + home];
-            document.getElementById("amountHome").value = conversion.toFixed(2);
+               foreign]) / parsed.quotes["USD" + home];
+            $("#amountHome").val(conversion.toFixed(2));
         }
     } // end of state change function
     request.send();
-}
+} // end of useAPI function
 
-window.onload = function()
-{
-    with(document.forms[0])
-    {
-        amountForeign.onchange = function()
-        {
-          <?php
-            echo "var home = '$homeCurrency';";
-           ?>
-            foreign = $("input[name^='foreignCurr']").val();
-
-            if (checkDate(expenseDate.value) && checkAmount(amountForeign.value))
-            {
-                useAPI(foreign, home, expenseDate.value, amountForeign.value);
-            }
-        }
-        expenseDate.onchange = function()
-        {
-            if (checkDate(expenseDate.value) && checkAmount(expenseForeign.value))
-            {
-                useAPI(foreign, home, expenseDate.value, expenseForeign.value);
-            }
-        }
-    }
-
-    $('#addexpense').click(function(){
-      $("#addExpenseForm").slideToggle(500);
+$(document).ready(function() {
+    <?php
+    echo "var home = '$homeCurrency';";
+    ?>
+    foreign = $("input[name^='foreignCurr']").val();
+    $("#amountForeign").change(function() {
+        if (checkDate($("#expenseDate").val()) && checkAmount($("#amountForeign").val()))
+            useAPI(foreign, home, $("#expenseDate").val(), $("#amountForeign").val());
     });
-}
+    $("#expenseDate").change(function() {
+        if (checkDate($("#expenseDate").val()) && checkAmount($("#amountForeign").val()))
+            useAPI(foreign, home, $("#expenseDate").val(), $("#amountForeign").val());
+    });
+    $('#addexpense').click(function() {
+        $("#addExpenseForm").slideToggle(500);
+    });
+}); // end of doc ready function
 </script>
 </head>
 
