@@ -216,24 +216,21 @@ function validate()
         if (expenseName.value == "")
         {
             document.getElementById("errName").style.display = "inline-block";
-            expenseN.focus();
+            expenseName.focus();
             err = true;
         }
-        alert(!err);
         if (!checkAmount(amountForeign.value))
         {
             document.getElementById("errAmount").style.display = "inline-block";
-            expenseForeign.focus();
+            amountForeign.focus();
             err = true;
         }
-        alert(!err);
         if (!checkDate(expenseDate.value))
         {
             document.getElementById("errDate").style.display = "inline-block";
-            date.focus();
+            expenseDate.focus();
             err = true;
         }
-        alert(!err);
         return !err;
     }
     //return !err;
