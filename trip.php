@@ -332,12 +332,14 @@ $(document).ready(function() {
         $home = 0;
 
         while($row = $result->fetch_assoc()) {
+            $eName = $row["expense_name"];
             echo "<tr> <td>" . $row["expense_date"] . "</td><td>" .
                 $row["expense_name"] . "</td><td>" . $row["name"] .
                 "</td><td>" . number_format($row["cost_local"],2) .
                 $row["local_currency"] . "</td><td>" .
                 number_format($row["cost_home"],2) . $homeCurrency .
                 "</td><td><form method = 'post' action = 'delete-expense.php'" .
+                "onsubmit = \"return confirm('Delete $eName?');\" ".
                 "class='deleteform'><input type='submit'  value=''" .
                 "class='deletebutton'><input type = 'hidden' name =" .
                 "'expenseID' value =" . $row['ID']."></form></td></tr>";
@@ -426,8 +428,8 @@ $(document).ready(function() {
         </form>
     </div>
     <br><br><hr>
-    <form class='deleteTrip'>
-        <input type=button id='deleteTrip' value="Delete Trip">
+    <form method = 'post' action = 'delete-trip.php' onsubmit = "return confirm('Delete this trip?');" class='deleteTrip'>
+        <input type=submit id='deleteTrip' value="Delete Trip">
     </form>
 </div>
 <br><br><br>
