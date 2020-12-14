@@ -213,26 +213,30 @@ function validate()
     document.getElementById("errDate").style.display = "none";
     with (document.forms[0])
     {
-        if (expenseN.value == "")
+        if (expenseName.value == "")
         {
             document.getElementById("errName").style.display = "inline-block";
             expenseN.focus();
             err = true;
         }
-        if (!checkAmount(expenseForeign.value))
+        alert(!err);
+        if (!checkAmount(amountForeign.value))
         {
             document.getElementById("errAmount").style.display = "inline-block";
             expenseForeign.focus();
             err = true;
         }
-        if (!checkDate(date.value))
+        alert(!err);
+        if (!checkDate(expenseDate.value))
         {
             document.getElementById("errDate").style.display = "inline-block";
             date.focus();
             err = true;
+        }
+        alert(!err);
+        return !err;
     }
-}
-    return !err;
+    //return !err;
 }
 
 function useAPI(foreign, home, date, amount) {
