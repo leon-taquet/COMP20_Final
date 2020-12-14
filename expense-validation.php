@@ -39,12 +39,11 @@
     $expenseHome = floatval($_POST['expenseHome']);
     $expenseForeign = floatval($_POST['expenseForeign']);
     $date = $_POST['date'];
-    $date=date("Y-m-d",strtotime($date));
 
     $sql = "INSERT INTO expenses (expense_name, cost_home, cost_local,
-        local_currency, CategoryID, tripID) VALUES ('$expenseN',
+        local_currency, CategoryID, tripID, expense_date) VALUES ('$expenseN',
             $expenseHome, $expenseForeign, '$local_currency',
-            $category, $trip)";
+            $category, $trip, '$date')";
 
     $conn->query($sql);
 

@@ -315,7 +315,7 @@ $(document).ready(function() {
 				tripID, local_currency, CategoryID, expenses.ID
 			FROM expenses INNER JOIN categories INNER JOIN trips
 			ON CategoryID = categories.ID AND tripID = trips.ID
-			WHERE tripID = $tripid";
+			WHERE tripID = $tripid ORDER BY expense_date";
     $result = $conn->query($sql);
 
     echo "<table>
