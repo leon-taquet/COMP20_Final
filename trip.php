@@ -103,6 +103,20 @@ crossorigin="anonymous">
         border-radius: 15px;
         background-color: red;
     }
+    #deleteTrip{
+        background-color: red;
+        color: black;
+        font-family: Times New Roman;
+        font-variant: small-caps;
+        font-size: 15px;
+        border-radius: 15px;
+        border-width: 3px;
+        padding: 5px 5px;
+        width:40%;
+        margin: 0 auto;
+        text-align:center;
+    }
+
     #back {
         font-size:15px;
         width:130px;
@@ -411,7 +425,7 @@ $(document).ready(function() {
                 value="Submit Expense">
         </form>
     </div>
-    <br>
+    <br><br><hr>
     <form class='deleteTrip'>
         <input type=button id='deleteTrip' value="Delete Trip">
     </form>
