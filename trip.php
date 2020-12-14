@@ -240,7 +240,7 @@ function useAPI(foreign, home, date, amount) {
     $("#amountForeign").val(parseFloat(amount).toFixed(2));
     request = new XMLHttpRequest();
     request.open("GET", "http://api.currencylayer.com/"
-        + "historical?access_key=782d6f73de40f0bd7651de14e8196b0e&date=" + date
+        + "historical?access_key=c89da602020150d12ed555a532a020eb&date=" + date
         + "&currencies=" + foreign + "," + home, true);
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status == 200)
