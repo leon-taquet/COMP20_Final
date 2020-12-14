@@ -247,7 +247,7 @@ function useAPI(foreign, home, date, amount) {
         {
             parsed = JSON.parse(request.responseText);
             conversion = (amount / parsed.quotes["USD" +
-               foreign]) / parsed.quotes["USD" + home];
+               foreign]) * parsed.quotes["USD" + home];
             $("#amountHome").val(conversion.toFixed(2));
         }
     } // end of state change function
