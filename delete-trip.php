@@ -33,6 +33,10 @@
 
     $conn->query($sql);
 
+    $sql = "DELETE FROM expenses WHERE tripID = $trip";
+
+    $conn->query($sql);
+
       echo "<meta http-equiv='refresh' content='0;URL=http://aboutlct.000webhostapp.com/Final/dashboard.php' />";
 
     $conn->close();
