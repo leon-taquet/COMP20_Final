@@ -43,7 +43,7 @@ if ($result->num_rows == 0) {
 }
 else {
         echo "<h3> Trip name taken. Please enter a different name. </h3>";
-        echo "<meta http-equiv='refresh' content='15; URL=https://aboutlct.000webhostapp.com/Final/dashboard.php' />";
+        echo "<meta http-equiv='refresh' content='5; URL=https://aboutlct.000webhostapp.com/Final/dashboard.php' />";
 }
 
 
