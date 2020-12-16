@@ -298,14 +298,13 @@ $(document).ready(function() {
     <?php
     echo "<h1>$tripname</h1>";
 
-    //for server page
-    $servername = "localhost";
-    $username = "id14882043_ltaque01";
-    $password = "WilliamLeonKateriJulia4!";
-    $dbname = "id14882043_itet";
+        $servername = "sql313.epizy.com";
+        $usernameData = "epiz_27473726";
+        $passwordData = "Aq3RuBCHCGEy";
+        $database = "epiz_27473726_ITET";
+// Create connection
+$conn = new mysqli($servername, $usernameData, $passwordData, $database);
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -391,7 +390,7 @@ $(document).ready(function() {
             <select name = "categoryID" size = '1'>
             <?php
             foreach($result as $row) {
-                if ($row['ID'] == 5)
+                if ($row['ID'] == 6)
                   echo "<option value = ".$row['ID'] . " selected>" .
                       $row['name'] . " </option>";
                 else

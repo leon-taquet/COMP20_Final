@@ -3,13 +3,12 @@
 <head>
 
 <?php
-$servername = "localhost";
-$username = "id14882043_ltaque01";
-$password = "WilliamLeonKateriJulia4!";
-$database = "id14882043_itet";
-
+        $servername = "sql313.epizy.com";
+        $usernameData = "epiz_27473726";
+        $passwordData = "Aq3RuBCHCGEy";
+        $database = "epiz_27473726_ITET";
 // Create connection
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $usernameData, $passwordData, $database);
 
 // Check connection
 if ($conn->connect_error) {
@@ -43,7 +42,7 @@ if ($result->num_rows == 0) {
 }
 else {
         echo "<h3> Trip name taken. Please enter a different name. </h3>";
-        echo "<meta http-equiv='refresh' content='5; URL=https://aboutlct.000webhostapp.com/Final/dashboard.php' />";
+        echo "<meta http-equiv='refresh' content='5; URL=http://itet.great-site.net/dashboard.php' />";
 }
 
 

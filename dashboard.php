@@ -104,10 +104,10 @@
     </style>
 
     <?php
-        $servername = "localhost";
-        $usernameData = "id14882043_ltaque01";
-        $passwordData = "WilliamLeonKateriJulia4!";
-        $database = "id14882043_itet";
+        $servername = "sql313.epizy.com";
+        $usernameData = "epiz_27473726";
+        $passwordData = "Aq3RuBCHCGEy";
+        $database = "epiz_27473726_ITET";
 
         // Create connection
         $conn = new mysqli($servername, $usernameData, $passwordData, $database);
@@ -160,14 +160,14 @@
         foreach($result as $row){
             if ($count % 2 == 0) {
                 print "<tr><td align='center'>";
-                print "<form action='http://aboutlct.000webhostapp.com/Final/trip.php' method='post'>
+                print "<form action='http://itet.great-site.net/trip.php' method='post'>
                   <input type = 'hidden' name = 'tripid' value ='". $row['ID']."'>
               <input type='submit' class='lbutton' name='tripname' value='" . $row['tripname'];
                 print "'/> </form></td>";
             }
             else {
                 print "<td align='center'>";
-                print "<form action='http://aboutlct.000webhostapp.com/Final/trip.php' method='post'>
+                print "<form action='http://itet.great-site.net/trip.php' method='post'>
                   <input type = 'hidden' name = 'tripid' value ='". $row['ID']."'>
               <input type='submit' class='lbutton' name='tripname' value='" . $row['tripname'];
                 print "'/> </form></td></tr>";

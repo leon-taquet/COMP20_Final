@@ -13,10 +13,10 @@
     }
 </style>
 <?php
-$servername = "localhost";
-$usernameData = "id14882043_ltaque01";
-$passwordData = "WilliamLeonKateriJulia4!";
-$database = "id14882043_itet";
+        $servername = "sql313.epizy.com";
+        $usernameData = "epiz_27473726";
+        $passwordData = "Aq3RuBCHCGEy";
+        $database = "epiz_27473726_ITET";
 
 // Create connection
 $conn = new mysqli($servername, $usernameData, $passwordData, $database);

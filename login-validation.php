@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8">
     <?php
-    $servername = "localhost";
-    $usernameData = "id14882043_ltaque01";
-    $passwordData = "WilliamLeonKateriJulia4!";
-    $database = "id14882043_itet";
+        $servername = "sql313.epizy.com";
+        $usernameData = "epiz_27473726";
+        $passwordData = "Aq3RuBCHCGEy";
+        $database = "epiz_27473726_ITET";
     // Create connection
     $conn = new mysqli($servername, $usernameData, $passwordData, $database);
 
@@ -36,14 +36,14 @@
       // output data of each row
       //$msg = "<h1> Successful Log In... Forwarding to Trip Page </h1>";
       $msg = "";
-      echo "<meta http-equiv='refresh' content='0;URL=http://aboutlct.000webhostapp.com/Final/dashboard.php' />";
+      echo "<meta http-equiv='refresh' content='0;URL=http://itet.great-site.net/dashboard.php' />";
       $user = $result->fetch_assoc();
       $_SESSION["HomeCurrency"] = $user['HomeCurrency'];
       $_SESSION["userID"] = $user['ID'];
 
     } else {
       $msg = "<h1> Invalid Log In... Sending back to Login Page </h1>";
-      echo "<meta http-equiv='refresh' content='2;URL=http://aboutlct.000webhostapp.com/Final/login.html' />";
+      echo "<meta http-equiv='refresh' content='2;URL=http://itet.great-site.net/login.html' />";
     }
     $conn->close();
     ?>
